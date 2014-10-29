@@ -21,10 +21,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
-app.get('/',routes.home);
-app.get('/home',routes.home);
 
-app.get('/select',handler.resultSet);
+app.get('/',routes.home);
+
+app.post('/barGraph', handler.resultSet);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

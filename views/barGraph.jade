@@ -6,13 +6,18 @@ html
     script.
       var data = !{JSON.stringify(data.actualdata)};
       var metadata = !{JSON.stringify(data.metadata)};
-      d3.select("body").append("p").text(data[0].value);
       var svgContainer = d3.select("body").append("svg").attr("width",1100).attr("height",1100); 
       var chartTopX = 100;
       var chartTopY = 100;
       var chartBottomX = 500;
       var chartBottomY = 500;
-      var maxValue = 80;
+     
+      var maxValue = data.reduce(function(obj, result) {
+            if(obj.value > result.value) return obj;
+            return result;
+      }).value;
+      maxValue = (maxValue%20) > 0 ? maxValue + (20-(maxValue%20)) : maxValue;
+
       var numOfTicks = 5;
       var yDistance = chartBottomY - chartTopY;
       var xDistance = chartBottomX - chartTopX;
