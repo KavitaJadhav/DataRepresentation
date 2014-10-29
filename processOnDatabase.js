@@ -3,8 +3,6 @@ var con = require('./databaseConnection.js').connect;
 
 var sd = {
   featchingDataFromDatabase : function(reqBody, res){
-    con.connection.connect();
-    
     var tableName = reqBody['tableName'];
     var xAxisTitle = reqBody['xAxis'];
     var yAxisTitle = reqBody['yAxis'];
@@ -15,7 +13,6 @@ var sd = {
           throw err;
       rs.resultset(rows, res);
       res.end();
-      con.connection.end();
     })
   }
 };
