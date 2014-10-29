@@ -1,16 +1,16 @@
 function barGraph(data, metadata) {
       var svgContainer = d3.select("body").append("svg").attr("width",1100).attr("height",1100); 
-      var chartTopX = metadata['y'].length * 10 + 50;
-      var chartTopY = 100;
-      var chartBottomX = chartTopX + (data.length * 40) + (data.length * 10);
-      var chartBottomY = 500;
-     
+      
       var maxValue = data.reduce(function(obj, result) {
             if(obj.value > result.value) return obj;
             return result;
       }).value;
       maxValue = (maxValue%20) > 0 ? maxValue + (20-(maxValue%20)) : maxValue;
-
+      var chartTopX = metadata['y'].length * 10 + 25 + (maxValue.toString().length * 10);
+      var chartTopY = 100;
+      var chartBottomX = chartTopX + (data.length * 40) + (data.length * 10);
+      var chartBottomY = 500;
+     
       var numOfTicks = 5;
       var yDistance = chartBottomY - chartTopY;
       var xDistance = chartBottomX - chartTopX;
@@ -34,10 +34,11 @@ function barGraph(data, metadata) {
       for(i = 0; i < numOfTicks; i++) 
       interval.push((maxValue/(numOfTicks-1))*i);
       var value = yLabelsGroups.selectAll("text").data(interval).enter().append("svg:text")
-      .text(function(d) {return d;}).attr("x", chartTopX - 25)
-      .attr("y", function(d, i) { return chartBottomY - (yDistance/(numOfTicks - 1)*i); });
+      .text(function(d) {return d;})
+      .attr("x", chartTopX - maxValue.toString().length * 10)
+      .attr("y", function(d, i) { return chartBottomY - (yDistance/(numOfTicks - 1)*i);});
+      
       var yScale = d3.scale.linear().domain([0, maxValue]).range([0, yDistance]);
-
       var barGroup = group.append("g").attr("class", "bars");
       barGroup.selectAll("rect").data(data).enter().append("rect")
       .attr("x", function(d, i) { return chartTopX + ((xDistance/(data.length))*(i+0.5)); })
