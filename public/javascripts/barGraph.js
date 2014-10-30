@@ -26,8 +26,11 @@ function barGraph(data, metadata) {
       
       var xLabelsGroups = group.append("g").attr("class", "x-labels")
       var years = xLabelsGroups.selectAll("text").data(data).enter().append("svg:text")
-      .text(function(d) { return d.label;}).attr("class", "tick-label")
-      .attr("y", chartBottomY + 20).attr("x", function(d, i) { return chartTopX + ((xDistance/(data.length))*(i+0.5)); });
+      .text(function(d) { return d.label;})
+      .attr("class", "tick-label")
+      .attr("y", chartBottomY + 20)
+      .attr("x", function(d, i) { return chartTopX + ((xDistance/(data.length))*(i+0.5)) + 20; })
+      .style("writing-mode", "tb")
 
       var yLabelsGroups = group.append("g").attr("class", "y-labels");
       var interval = [];
@@ -36,7 +39,7 @@ function barGraph(data, metadata) {
       var value = yLabelsGroups.selectAll("text").data(interval).enter().append("svg:text")
       .text(function(d) {return d;})
       .attr("x", chartTopX - maxValue.toString().length * 10)
-      .attr("y", function(d, i) { return chartBottomY - (yDistance/(numOfTicks - 1)*i);});
+      .attr("y", function(d, i) { return chartBottomY - (yDistance/(numOfTicks - 1)*i); });
       
       var yScale = d3.scale.linear().domain([0, maxValue]).range([0, yDistance]);
       var barGroup = group.append("g").attr("class", "bars");
@@ -44,7 +47,7 @@ function barGraph(data, metadata) {
       .attr("x", function(d, i) { return chartTopX + ((xDistance/(data.length))*(i+0.5)); })
       .attr("y", function(d) { return chartBottomY - yScale(d.value); })
       .attr("width", 40).attr("height", function(d) { return yScale(d.value); })
-      .style("fill", "#00b3dc").text();
+      .style("fill", "#00b3dc");
 
       var percentageGroups = group.append("g").attr("class", "percentage")
       var percentage = percentageGroups.selectAll("text").data(data).enter().append("svg:text")
@@ -52,13 +55,17 @@ function barGraph(data, metadata) {
       .attr("y", function(d) { return chartBottomY - yScale(d.value) - 10})
       .attr("x", function(d, i) { return chartTopX + ((xDistance/(data.length))*(i+0.5)); }).text(function(d) { return d.value});
 
+      var maxLength = data.map(function(obj) { return obj.label; })
+                        .reduce(function(prev, curr) { return prev.length>curr.length?prev:curr; }).length;
+
       var x_axis_label = group.append("g").attr("class", "x_axis_label")
       var x_label = x_axis_label.append("text")
       .attr("class", "x_axis_label")
-      .attr("y", chartBottomY + 70)
+      .attr("y", chartBottomY + (maxLength*11))
       .attr("x", chartTopX + (xDistance/2))
       .text(metadata.x)
-      .style("font-weight", "bold");
+      .style("font-weight", "bold")
+      .style("font-size", "19px");  
 
       var y_axis_label = group.append("g").attr("class", "y_axis_label")
       var y_label = y_axis_label.append("text")
@@ -66,5 +73,6 @@ function barGraph(data, metadata) {
       .attr("y", chartTopY + (yDistance/2))
       .attr("x", 25)
       .text(metadata.y)
-      .style("font-weight", "bold");
+      .style("font-weight", "bold")
+      .style("font-size", "19px");  
 };
