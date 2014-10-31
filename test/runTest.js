@@ -48,7 +48,7 @@ var quit = function(){
 
 var readTestDetails = function(testfileName){
 	console.log('loading tests from',testfileName);
-	var test = require('./'+testfileName).test;
+	var test = require(testfileName).test;
 	test || quit('Missing test object in',testfileName);
 	var members = Object.keys(test);
 	var isAFunction = function(field){return ('function' == typeof test[field]);};
@@ -89,9 +89,9 @@ var main = function(){
 	var lastFailures = function(){
 		return fs.existsSync('.failures') && fs.readFileSync('.failures','utf-8').split(',');
 	};
-
-	if(!fs.existsSync(testName)) quit('Missing testfile',testName);
-	var testDetails = readTestDetails(testName);
+	var testfileName = process.cwd() + "/" + testName;
+	if(!fs.existsSync(testName)) quit('Missing testfile',testfileName);
+	var testDetails = readTestDetails(testfileName);
 
 	(option === '-list') && testDetails.methodNames.forEach(printLine);
 	(option === '-stop') && runTests(testDetails.test,testDetails.methodNames,'stop');
