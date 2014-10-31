@@ -1,4 +1,4 @@
-var dataRepresentator = require('../processOnResult.js').dataRepresentator;
+var dataRepresentator = require('../dataRepresentator.js').dataRepresentator;
 var assert = require('assert');
 var test = {};
 exports.test = test;
