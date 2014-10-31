@@ -1,4 +1,4 @@
-var rs = require('./processOnResult.js').rs;
+var dataRepresentator = require('./dataRepresentator.js').dataRepresentator;
 var con = require('./databaseConnection.js').connect;
 
 var sd = {
@@ -11,7 +11,7 @@ var sd = {
     return con.connection.query(query, function selectAll(err, rows, fields) {
       if (err) 
           throw err;
-      rs.resultset(rows, res);
+      dataRepresentator.display(rows, res);
       res.end();
     })
   }
