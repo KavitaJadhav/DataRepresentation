@@ -1,0 +1,8 @@
+html
+	head
+		title pie chart
+		script(type='text/javascript', src='http://d3js.org/d3.v3.min.js', charset='utf-8')
+	body
+		script(type='text/javascript', src="/javascripts/pieChart.js")
+		script.
+			pieChart(!{JSON.stringify(data)})

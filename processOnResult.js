@@ -7,7 +7,7 @@ var Result = function(label, value) {
   return obj;
 }
 
-rs.resultset = function(rows, response) {
+rs.resultset = function(req, response, rows) {
   var keys = Object.keys(rows[0]);
   var labelledValues = [];
 
@@ -17,7 +17,10 @@ rs.resultset = function(rows, response) {
 
   var result = {'metadata' : {'x' : keys[0] , 'y' : keys[1]}, 
                'actualdata': labelledValues};
-  response.render('barGraph', {data:result});
+  var graphType = (req.route.path).slice(1).toString();
+  if(graphType == 'barGraph')
+    response.render(graphType, {data:result});
+  else response.render(graphType, {data:result.actualdata});
 }
 
 exports.rs = rs;

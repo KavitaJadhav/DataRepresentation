@@ -1,0 +1,20 @@
+html
+  body
+    form(method='post', action='/pieChart', name='pieChartInputForm')
+      table.center
+        tr
+          td Table Name
+          td
+            input(type='text', name='tableName')
+        tr
+          td X-Axis
+          td
+            input(type='text', name='xAxis')
+        tr
+          td Y-Axis
+          td
+            input(type='text', name='yAxis')
+        tr
+          td  
+          td
+            input(type='submit', value='Submit')
