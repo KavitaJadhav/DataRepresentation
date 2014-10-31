@@ -1,3 +1,5 @@
+grant all on `test`.* to 'data_rep'@'localhost' identified by 'password';
+
 USE test;
 
 -- bookcatalog table --
