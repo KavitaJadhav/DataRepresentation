@@ -1,4 +1,4 @@
-function barGraph(data, metadata) {
+var barGraph = function(data, metadata) {
       var svgContainer = d3.select("body").append("svg").attr("width",1100).attr("height",1100); 
       
       var maxValue = data.reduce(function(obj, result) {
