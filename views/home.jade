@@ -1,10 +1,68 @@
-#page
-#logo
-h1 Chart Gallery
-#content
-#repname
-ul
-li
-a(href='/bar_chart_input') Bar Graph
-li
-a(href='/pie_chart_input') Pie Chart
+html
+  html
+    head
+      link(rel='stylesheet', href='/stylesheets/style.css', type='text/css')
+      link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css')
+      script(language='javascript', type='text/javascript')
+        function showHide(shID) {
+        if (document.getElementById(shID)) {
+        if (document.getElementById(shID+'-show').style.display != 'none')
+        document.getElementById(shID).style.display = 'block';
+        }
+        }
+
+    body
+      h1
+        center
+          u Chart Gallery
+      #list
+        #wrap
+          ul.nav.nav-pills.nav-stacked(role='tablist')
+            li
+              a#barGraph-show.showLink(onclick='showHide(\'barGraph\');')
+                | Bar Graph
+            br
+            li
+              a#pieChart-show.showLink(onclick='showHide(\'pieChart\');')
+                | Pie Chart
+              li
+      #mainDiv
+        #barGraph.more
+          form(method='post', action='/barGraph', name='barGraphInputForm')
+            table.well
+              tr
+                td Table Name
+                td
+                  input(type='text', name='tableName')
+              tr
+                td X-Axis
+                td
+                  input(type='text', name='xAxis')
+              tr
+                td Y-Axis
+                td
+                  input(type='text', name='yAxis')
+              tr
+                td
+                td
+                  input(type='submit', value='Submit')
+      #mainDiv
+        #pieChart.more
+          form(method='post', action='/pieChart', name='pieChartInputForm')
+            table.well
+              tr
+                td Table Name
+                td
+                  input(type='text', name='tableName')
+              tr
+                td X-Axis
+                td
+                  input(type='text', name='xAxis')
+              tr
+                td Y-Axis
+                td
+                  input(type='text', name='yAxis')
+              tr
+                td
+                td
+                  input(type='submit', value='Submit')
