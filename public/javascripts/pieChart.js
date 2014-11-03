@@ -1,4 +1,4 @@
-function pieChart(data) {
+function pieChart(data , metadata) {
     var w = 1100,                        //width
     h = 650,                            //height
     r = 250,                            //radius
@@ -44,7 +44,7 @@ function pieChart(data) {
     .attr("class", "description")
     .attr("y", 300)
     .attr("x", 000)
-    .text("description text description text description text")
+    .text("PieChart for : "+ metadata.x + " with " + metadata.y)
     .style("font-weight", "bold")
     .style("font-size", "19px")
     .style("text-anchor", "middle"); 
