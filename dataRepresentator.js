@@ -20,9 +20,7 @@ dataRepresentator.format = function(rows) {
 
 dataRepresentator.display = function(request, rows, response) {  
   var graphType = (request.route.path).slice(1).toString();
-  if(graphType == 'barGraph')
     response.render(graphType, {data : this.format(rows)});
-  else response.render(graphType, {data : this.format(rows).actualdata});
 };
 
 exports.dataRepresentator = dataRepresentator;
