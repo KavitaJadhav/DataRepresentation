@@ -1,0 +1,59 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>QUnit basic example</title>
+		<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+		<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+		<script src="../public/javascripts/barGraph.js"></script>
+	</head>
+	<body>
+		<div id="qunit"></div>
+		<div id="qunit-fixture"></div>
+		<script>
+			QUnit.module("y axis max value");
+			QUnit.test( "calculation of max value on the y axis", function( assert ) {
+				var data = [ 
+					{ label: 'book5', value: 280 },
+  					{ label: 'book4', value: 310 },
+  					{ label: 'book3', value: 150 },
+  					{ label: 'book1', value: 100 } 
+  				];
+				
+				var maxValue = barGraph.getMaxValueOnYAxis(data);
+				
+				assert.equal(maxValue, 320);
+			});
+			QUnit.test( "calculation of max value on the y axis when the data has max value divisible by 4", function( assert ) {
+				var data = [ 
+					{ label: 'book5', value: 280 },
+  					{ label: 'book4', value: 310 },
+  					{ label: 'book3', value: 150 },
+  					{ label: 'book2', value: 500 },
+  					{ label: 'book1', value: 100 } 
+  				];
+				
+				var maxValue = barGraph.getMaxValueOnYAxis(data);
+				
+				assert.equal(maxValue, 500);
+			});
+			QUnit.module("chart dimesion");
+			QUnit.test("chart dimensions are calculated based on metadata and data to be represented", function(assert) {
+				var data = [ 
+					{ label: 'book5', value: 280 },
+  					{ label: 'book4', value: 310 },
+  					{ label: 'book3', value: 150 },
+  					{ label: 'book2', value: 500 },
+  					{ label: 'book1', value: 100 } 
+  				];
+  				var metadata = { x: 'title', y: 'price' }
+  				
+  				var dimensions = barGraph.getChartDimension(data, metadata, 500);
+
+  				assert.equal(dimensions.chartTopY, 100);
+  				assert.equal(dimensions.chartBottomY, 500);
+  				assert.equal(dimensions.chartTopX, 105);
+  				assert.equal(dimensions.chartBottomX, 355);
+			});
+		</script>
+	</body>
+</html>

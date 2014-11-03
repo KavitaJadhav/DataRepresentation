@@ -5,4 +5,4 @@ html
 	body
 		script(type='text/javascript', src="/javascripts/barGraph.js")
 		script.
-			barGraph(!{JSON.stringify(data.actualdata)}, !{JSON.stringify(data.metadata)})
+			barGraph.draw(!{JSON.stringify(data.actualdata)}, !{JSON.stringify(data.metadata)})
