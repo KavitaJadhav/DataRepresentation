@@ -1,7 +1,7 @@
 function pieChart(data) {
-    var w = 600,                        //width
-    h = 600,                            //height
-    r = 300,                            //radius
+    var w = 1100,                        //width
+    h = 650,                            //height
+    r = 250,                            //radius
     color = d3.scale.category20c();     //builtin range of colors
  
     var vis = d3.select("body")
@@ -10,7 +10,7 @@ function pieChart(data) {
             .attr("width", w)           //set the width and height of our visualization (these will be attributes of the <svg> tag
             .attr("height", h)
         .append("svg:g")                //make a group to hold our pie chart
-            .attr("transform", "translate(" + r + "," + r + ")")    //move the center of the pie chart from 0, 0 to radius, radius
+            .attr("transform", "translate(" + 300 + "," + 300 + ")") ;   //move the center of the pie chart from 0, 0 to radius, radius
  
     var arc = d3.svg.arc()              //this will create <path> elements for us using arc data
         .outerRadius(r);
@@ -37,4 +37,17 @@ function pieChart(data) {
             })
             .attr("text-anchor", "middle")                          //center the text on it's origin
             .text(function(d, i) { return data[i].label +"  "+ data[i].value; });        //get the label from our original data array
+
+      
+    var description = vis.append("g").attr("class", "description");
+    var desc_label = description.append("text")
+    .attr("class", "description")
+    .attr("y", 300)
+    .attr("x", 000)
+    .text("description text description text description text")
+    .style("font-weight", "bold")
+    .style("font-size", "19px")
+    .style("text-anchor", "middle"); 
+
+
 }
