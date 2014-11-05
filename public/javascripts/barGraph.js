@@ -78,7 +78,7 @@ barGraph.displayXAxisDescription = function(group, dimension, maxLength, metadat
       var x_axis_label = group.append("g").attr("class", "x_axis_label");
       var x_label = x_axis_label.append("text")
       .attr("class", "x_axis_label")
-      .attr("y", dimension.chartBottomY + (maxLength*11))
+      .attr("y", dimension.chartBottomY + (maxLength*17))
       .attr("x", dimension.chartTopX + (xDistance/2))
       .text(metadata.x)
       .style("font-weight", "bold")
