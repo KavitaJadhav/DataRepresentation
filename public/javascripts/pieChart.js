@@ -1,4 +1,6 @@
-function pieChart(data , metadata) {
+var pieChart = {};
+
+pieChart.draw = function(data , metadata) {
     var w = 1100,                        //width
     h = 650,                            //height
     r = 250,                            //radius

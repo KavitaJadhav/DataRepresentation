@@ -5,4 +5,4 @@ html
 	body
 		script(type='text/javascript', src="/javascripts/pieChart.js")
 		script.
-			pieChart(!{JSON.stringify(data.actualdata)}, !{JSON.stringify(data.metadata)})
+			pieChart.draw(!{JSON.stringify(data.actualdata)}, !{JSON.stringify(data.metadata)})
