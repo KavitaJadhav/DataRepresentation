@@ -1,69 +1,55 @@
 html
-  html
-    head
-      link(rel='stylesheet', href='/stylesheets/style.css', type='text/css')
-      link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
-      script(language='javascript', type='text/javascript')
-      script.
-        function showHide(shID) {
-        if (document.getElementById(shID)) {
-        if (document.getElementById(shID+'-show').style.display != 'none')
-        document.getElementById(shID).style.display = 'block';
-        }
-        }
-
-    body
-      h1
-        center
-          u Chart Gallery
-      #list
-        #wrap
-          ul.nav.nav-pills.nav-stacked(role='tablist')
-            li
-              a#barGraph-show.showLink(onclick='showHide(\'barGraph\');')
-                | Bar Graph
-            br
-            li
-              a#pieChart-show.showLink(onclick='showHide(\'pieChart\');')
-                | Pie Chart
-              li
-      #mainDiv
-        #barGraph.more
-          form(method='post', action='/barGraph', name='barGraphInputForm')
-            table.well
-              tr
-                td Table Name
-                td
-                  input(type='text', name='tableName')
-              tr
-                td X-Axis
-                td
-                  input(type='text', name='xAxis')
-              tr
-                td Y-Axis
-                td
-                  input(type='text', name='yAxis')
-              tr
-                td
-                td
-                  input(type='submit', value='Submit')
-      #mainDiv
-        #pieChart.more
-          form(method='post', action='/pieChart', name='pieChartInputForm')
-            table.well
-              tr
-                td Table Name
-                td
-                  input(type='text', name='tableName')
-              tr
-                td X-Axis
-                td
-                  input(type='text', name='xAxis')
-              tr
-                td Y-Axis
-                td
-                  input(type='text', name='yAxis')
-              tr
-                td
-                td
-                  input(type='submit', value='Submit')
+  head
+    link(rel='stylesheet', href='/stylesheets/style.css', type='text/css')
+    link(rel='stylesheet' , href='/stylesheets/bootstrap.min.css' type='text/css')
+    script.
+      function showHide(shID) {
+      if (document.getElementById(shID)) {
+      if (document.getElementById(shID).style.display!='block') {
+      var anotherInput = ((shID=='barGraph')?'pieChart':'barGraph');
+      document.getElementById(anotherInput).style.display = 'none';
+      document.getElementById(shID).style.display = 'block';
+      }
+      }
+      }
+  body
+    h1
+      center Chart Gallery
+    #list
+      #wrap
+        ul.nav.nav-pills.nav-stacked(role='tablist')
+          li
+            a#barGraph-show.showLink(onclick='showHide(\'barGraph\');')
+              | Bar Graph
+          br
+          li
+            a#pieChart-show.showLink(onclick='showHide(\'pieChart\');')
+              | Pie Chart
+    #pieChart.more
+      .login
+        form(method='post', action='/pieChart', name='pieChartInputForm')
+          p.inputBoxName
+            b Pie Chart
+          .inputList
+            p
+              input(type='text', name='tableName', placeholder='table name')
+            p
+              input(type='text', name='xAxis', placeholder='description column')
+            p
+              input(type='text', name='yAxis', placeholder='comparison column')
+          p.submit
+            input(type='submit', value='Submit')
+    #barGraph.more
+      .login
+        form(method='post', action='/barGraph', name='barGraphInputForm')
+          p.inputBoxName
+            b Bar Graph
+          .inputList
+            p
+              input(type='text', name='tableName', placeholder='table name')
+            p
+              input(type='text', name='xAxis', placeholder='x axis')
+            p
+              input(type='text', name='yAxis', placeholder='y axis')
+          p.submit
+            input(type='submit', value='Submit')

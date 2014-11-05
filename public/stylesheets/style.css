@@ -1,3 +1,15 @@
+h1{
+	background-color: #eee;
+	font-style: bold;
+	height: 100px;
+	padding-top: 30px;
+}
+#pieChart {
+	display: none;
+}
+#barGraph {
+	display: none;
+}
 #content{
 	width:300px;
 	background-color: #eee;
@@ -8,12 +20,10 @@
 }
 
 .more {
-    display: none;
-    width: 600px;
-	height: 600px;
-	top: 200px;
-	left: 400px;
-	border: thick solid black;
+    height: 300px;
+	width: 560px;
+	margin: 80px;
+	float: left;
 };
 
 .abc {
@@ -31,18 +41,31 @@
 	width: 50%;
     margin: 0 auto;
 }
-
 #list {
 	width: screen.width;
 	height: 700px;
 	margin: 20px;
-	border: solid;
-	float: left;	
+	float: left;
+	font-size: 20px;	
 }
 
-#mainDiv{
-	height: 700px;
-	margin: 70px;
-	border: solid;
+.login{
+	padding: 20px;
+	margin-left: 80px;
+	background-color: #eee;
+	width: 560px;
+	height: 300px;
 	float: left;
+}
+.inputBoxName{
+	padding-left: 210px;
+	font-size: 1.5em;
+}
+.submit{
+	padding: 20px;
+	margin-left: 200px;
+}
+.inputList{
+	font-size: 1.5em;
+	margin-left: 150px;
 }
