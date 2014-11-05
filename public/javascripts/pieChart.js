@@ -1,66 +1,66 @@
 var pieChart = {};
 
 pieChart.draw = function(data , metadata) {
-    var w = 1100,                        //width
-    h = 650,                            //height
-    r = 250,                            //radius
-    color = d3.scale.category20c();     //builtin range of colors
+    var width = 1100,
+    height = 650,
+    radius = 250,
+    color = d3.scale.category20c();
 
     var colorDescriptions = [];
  
-    var vis = d3.select("body")
-        .append("svg:svg")              //create the SVG element inside the <body>
-        .data([data])                   //associate our data with the document
-            .attr("width", w)           //set the width and height of our visualization (these will be attributes of the <svg> tag
-            .attr("height", h)
-        .append("svg:g")                //make a group to hold our pie chart
-            .attr("transform", "translate(" + 300 + "," + 300 + ")") ;   //move the center of the pie chart from 0, 0 to radius, radius
- 
-    var arc = d3.svg.arc()              //this will create <path> elements for us using arc data
-        .outerRadius(r);
- 
-    var pie = d3.layout.pie()           //this will create arc data for us given a list of values
-        .value(function(d) { return d.value; });    //we must tell it out to access the value of each element in our data array
- 
-    var arcs = vis.selectAll("g.slice")     //this selects all <g> elements with class slice (there aren't any yet)
-        .data(pie)                          //associate the generated pie data (an array of arcs, each having startAngle, endAngle and value properties) 
-        .enter()                            //this will create <g> elements for every "extra" data element that should be associated with a selection. The result is creating a <g> for every object in the data array
-            .append("svg:g")                //create a group to hold each slice (we will have a <path> and a <text> element associated with each slice)
-                .attr("class", "slice");    //allow us to style things in the slices (like text)
- 
-        arcs.append("svg:path")
-                .attr("fill", function(d, i) { 
-                    var colorSelected =  color(i);
-                    colorDescriptions.push({"colorSelected": colorSelected, "label": data[i].label});
-                    return colorSelected; } )
-                .attr("d", arc);                                    //this creates the actual SVG path using the associated data (pie) with the arc drawing function
- 
-        arcs.append("svg:text")                                     //add a label to each slice
-                .attr("transform", function(d) {                    //set the label's origin to the center of the arc
-                //we have to make sure to set these before calling arc.centroid
-                d.innerRadius = 0;
-                d.outerRadius = r;
-                return "translate(" + arc.centroid(d) + ")";        //this gives us a pair of coordinates like [50, 50]
-            })
-            .attr("text-anchor", "middle")                          //center the text on it's origin
-            .text(function(d, i) { return data[i].value; });        //get the label from our original data array
+    var svgContainer = d3.select("body")
+        .append("svg:svg")
+        .data([data])
+        .attr("width", width)
+        .attr("height", height)
+        .append("svg:g")
+        .attr("transform", "translate(" + 300 + "," + 300 + ")") ;
 
-    var description = vis.append("g").attr("class", "description");
+
+    var arc = d3.svg.arc()
+        .outerRadius(radius);
+ 
+    var pie = d3.layout.pie()
+        .value(function(d) { return d.value; });
+
+    var arcs = svgContainer.selectAll("g.slice")
+        .data(pie)   
+        .enter()
+        .append("svg:g")
+        .attr("class", "slice");
+
+    arcs.append("svg:path")
+        .attr("fill", function(d, i) { 
+        var colorSelected =  color(i);
+        colorDescriptions.push({"colorSelected": colorSelected, "label": data[i].label});
+        return colorSelected; } )
+        .attr("d", arc);
+
+    arcs.append("svg:text")
+        .attr("transform", function(d) {
+        d.innerRadius = 0;
+        d.outerRadius = radius;
+            return "translate(" + arc.centroid(d) + ")";
+        })
+        .attr("text-anchor", "middle")
+        .text(function(d, i) { return data[i].value; });
+
+    var description = svgContainer.append("g").attr("class", "description");
     var desc_label = description.append("text")
-    .attr("class", "description")
-    .attr("y", 300)
-    .attr("x", 000)
-    .text("PieChart for : "+ metadata.x + " with " + metadata.y)
-    .style("font-weight", "bold")
-    .style("font-size", "19px")
-    .style("text-anchor", "middle"); 
+        .attr("class", "description")
+        .attr("y", 300)
+        .attr("x", 000)
+        .text("PieChart for : "+ metadata.x + " with " + metadata.y)
+        .style("font-weight", "bold")
+        .style("font-size", "19px")
+        .style("text-anchor", "middle"); 
 
-    var pieChartLabels = vis.append("g").attr("id","pie-chart-labels");
+    var pieChartLabels = svgContainer.append("g").attr("id","pie-chart-labels");
     pieChartLabels.selectAll("text").data(colorDescriptions).enter().append("svg:text")
         .text(function(d) { return d.label; } ).attr("x",440)
         .attr("y",function(d, i) { return 10 + i*30; });
     
-    var pieChartLabelsColors = vis.append("g").attr("id","pie-chart-labels-colors");
+    var pieChartLabelsColors = svgContainer.append("g").attr("id","pie-chart-labels-colors");
     pieChartLabelsColors.selectAll("rect").data(colorDescriptions).enter().append("rect")
         .attr("x",400)
         .attr("y",function(d, i) { return i*30; })
