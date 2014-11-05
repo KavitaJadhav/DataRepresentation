@@ -1,8 +1,48 @@
-/*body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+#content{
+	width:300px;
+	background-color: #eee;
 }
 
-a {
-  color: #00B7FF;
-}*/
+#outerTakeInput {
+	visibility: hidden;
+}
+
+.more {
+    display: none;
+    width: 600px;
+	height: 600px;
+	top: 200px;
+	left: 400px;
+	border: thick solid black;
+};
+
+.abc {
+	width: 200px;
+	height: 1400px;
+}
+
+#wrap {
+	padding-top: 20px;
+	width: 300px;
+	height: 1000px;
+	margin: 10px;
+}
+.well {
+	width: 50%;
+    margin: 0 auto;
+}
+
+#list {
+	width: screen.width;
+	height: 700px;
+	margin: 20px;
+	border: solid;
+	float: left;	
+}
+
+#mainDiv{
+	height: 700px;
+	margin: 70px;
+	border: solid;
+	float: left;
+}

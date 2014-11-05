@@ -24,10 +24,6 @@ if ('development' == app.get('env')) {
 
 app.get('/',routes.home);
 
-app.get('/bar_chart_input', routes.bar_chart)
-
-app.get('/pie_chart_input', routes.pie_chart)
-
 app.post('/barGraph', handler.resultSet);
 
 app.post('/pieChart', handler.resultSet);
