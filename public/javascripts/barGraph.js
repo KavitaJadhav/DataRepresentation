@@ -43,9 +43,8 @@ barGraph.drawLabelsOnXAxis = function(xLabelsGroups, data, dimension, xDistance)
       xLabelsGroups.selectAll("text").data(data).enter().append("svg:text")
       .text(function(d) { return d.label;})
       .attr("class", "tick-label")
-      .attr("y", dimension.chartBottomY + 20)
-      .attr("x", function(d, i) { return dimension.chartTopX + ((xDistance/(data.length))*(i+0.5)) + 20; })
-      .style("writing-mode", "tb")
+      .attr("transform", function (d, i)  {
+            return "translate(" + (dimension.chartTopX + ((xDistance/(data.length))*(i+0.5) + 20) + "," + (dimension.chartBottomY + 50) +") rotate(270)") })
 };
 
 barGraph.drawLabelsOnYAxis = function(yLabelsGroups, dimension, maxValue, numOfTicks, yDistance) {
