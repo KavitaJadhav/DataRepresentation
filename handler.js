@@ -1,6 +1,6 @@
-var databaseHandler = require('./processOnDatabase.js').databaseHandler;
-var dataRepresentator = require('./dataRepresentator.js').dataRepresentator;
-var con = require('./databaseConnection.js').connect;
+var databaseHandler = require('./database/processOnDatabase.js').databaseHandler;
+var dataRepresentator = require('./database/dataRepresentator.js').dataRepresentator;
+var con = require('./database/databaseConnection.js').connect;
 
 var handler = {
 	resultSet : function(req,res){
