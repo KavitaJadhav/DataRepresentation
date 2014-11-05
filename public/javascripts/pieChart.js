@@ -34,7 +34,7 @@ pieChart.draw = function(data , metadata) {
         var colorSelected =  color[i];
         colorDescriptions.push({"colorSelected": colorSelected, "label": data[i].label});
         return colorSelected; } )
-        .attr("d", arc);
+        .attr("d", arc)
 
     arcs.append("svg:text")
         .attr("transform", function(d) {
@@ -43,7 +43,9 @@ pieChart.draw = function(data , metadata) {
             return "translate(" + arc.centroid(d) + ")";
         })
         .attr("text-anchor", "middle")
-        .text(function(d, i) { return data[i].value; });
+        .text(function(d, i) { return data[i].value; })
+        .style("font-weight", "bold")
+        .style("font-size", "20px");
 
     var description = svgContainer.append("g").attr("class", "description");
     var desc_label = description.append("text")
@@ -52,13 +54,15 @@ pieChart.draw = function(data , metadata) {
         .attr("x", 000)
         .text("Pie Chart of "+ metadata.x + " with " + metadata.y)
         .style("font-weight", "bold")
-        .style("font-size", "19px")
+        .style("font-size", "20px")
         .style("text-anchor", "middle"); 
 
     var pieChartLabels = svgContainer.append("g").attr("id","pie-chart-labels");
     pieChartLabels.selectAll("text").data(colorDescriptions).enter().append("svg:text")
         .text(function(d) { return d.label; } ).attr("x",440)
-        .attr("y",function(d, i) { return 10 + i*30; });
+        .attr("y",function(d, i) { return 14 + i*30; })
+        .style("font-weight", "bold")
+        .style("font-size", "20px");
     
     var pieChartLabelsColors = svgContainer.append("g").attr("id","pie-chart-labels-colors");
     pieChartLabelsColors.selectAll("rect").data(colorDescriptions).enter().append("rect")
