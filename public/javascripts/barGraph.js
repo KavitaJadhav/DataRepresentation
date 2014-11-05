@@ -68,7 +68,7 @@ barGraph.drawBars = function(barGroup, data, dimension, yScale, xDistance) {
 
 barGraph.drawBarLabels = function(barLabelGroups, data, dimension, yScale, xDistance) {
       barLabelGroups.selectAll("text").data(data).enter().append("svg:text")
-      .text(function(d) { return d.label;}).attr("class", "tick-label")
+      .attr("class", "tick-label")
       .attr("y", function(d) { return dimension.chartBottomY - yScale(d.value) - 10})
       .attr("x", function(d, i) { return dimension.chartTopX + ((xDistance/(data.length))*(i+0.5)); })
       .text(function(d) { return d.value});

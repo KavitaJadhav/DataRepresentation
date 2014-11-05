@@ -3,6 +3,8 @@ function pieChart(data , metadata) {
     h = 650,                            //height
     r = 250,                            //radius
     color = d3.scale.category20c();     //builtin range of colors
+
+    var colorDescriptions = [];
  
     var vis = d3.select("body")
         .append("svg:svg")              //create the SVG element inside the <body>
@@ -25,7 +27,10 @@ function pieChart(data , metadata) {
                 .attr("class", "slice");    //allow us to style things in the slices (like text)
  
         arcs.append("svg:path")
-                .attr("fill", function(d, i) { return color(i); } ) //set the color for each slice to be chosen from the color function defined above
+                .attr("fill", function(d, i) { 
+                    var colorSelected =  color(i);
+                    colorDescriptions.push({"colorSelected": colorSelected, "label": data[i].label});
+                    return colorSelected; } )
                 .attr("d", arc);                                    //this creates the actual SVG path using the associated data (pie) with the arc drawing function
  
         arcs.append("svg:text")                                     //add a label to each slice
@@ -36,9 +41,8 @@ function pieChart(data , metadata) {
                 return "translate(" + arc.centroid(d) + ")";        //this gives us a pair of coordinates like [50, 50]
             })
             .attr("text-anchor", "middle")                          //center the text on it's origin
-            .text(function(d, i) { return data[i].label +"  "+ data[i].value; });        //get the label from our original data array
+            .text(function(d, i) { return data[i].value; });        //get the label from our original data array
 
-      
     var description = vis.append("g").attr("class", "description");
     var desc_label = description.append("text")
     .attr("class", "description")
@@ -49,5 +53,17 @@ function pieChart(data , metadata) {
     .style("font-size", "19px")
     .style("text-anchor", "middle"); 
 
+    var pieChartLabels = vis.append("g").attr("id","pie-chart-labels");
+    pieChartLabels.selectAll("text").data(colorDescriptions).enter().append("svg:text")
+        .text(function(d) { return d.label; } ).attr("x",440)
+        .attr("y",function(d, i) { return 10 + i*30; });
+    
+    var pieChartLabelsColors = vis.append("g").attr("id","pie-chart-labels-colors");
+    pieChartLabelsColors.selectAll("rect").data(colorDescriptions).enter().append("rect")
+        .attr("x",400)
+        .attr("y",function(d, i) { return i*30; })
+        .attr("width", 25)
+        .attr("height", 15)
+        .style("fill" , function(d) { return d.colorSelected; });
 
 }
