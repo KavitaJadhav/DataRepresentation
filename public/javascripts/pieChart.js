@@ -4,7 +4,7 @@ pieChart.draw = function(data , metadata) {
     var width = 1100,
     height = 650,
     radius = 250,
-    color = d3.scale.category20c();
+    color = ["#C5AAF5","#FB7374","#A3CBF1","#79BFA1","#F5A352","#94B3C8", "#F9D08B","#B2AC4E","#64BD4F","#C09372"];
 
     var colorDescriptions = [];
  
@@ -31,10 +31,10 @@ pieChart.draw = function(data , metadata) {
 
     arcs.append("svg:path")
         .attr("fill", function(d, i) { 
-        var colorSelected =  color(i);
+        var colorSelected =  color[i];
         colorDescriptions.push({"colorSelected": colorSelected, "label": data[i].label});
         return colorSelected; } )
-        .attr("d", arc);
+        .attr("d", arc)
 
     arcs.append("svg:text")
         .attr("transform", function(d) {
@@ -43,22 +43,26 @@ pieChart.draw = function(data , metadata) {
             return "translate(" + arc.centroid(d) + ")";
         })
         .attr("text-anchor", "middle")
-        .text(function(d, i) { return data[i].value; });
+        .text(function(d, i) { return data[i].value; })
+        .style("font-weight", "bold")
+        .style("font-size", "20px");
 
     var description = svgContainer.append("g").attr("class", "description");
     var desc_label = description.append("text")
         .attr("class", "description")
         .attr("y", 300)
         .attr("x", 000)
-        .text("PieChart for : "+ metadata.x + " with " + metadata.y)
+        .text("Pie Chart of "+ metadata.x + " with " + metadata.y)
         .style("font-weight", "bold")
-        .style("font-size", "19px")
+        .style("font-size", "20px")
         .style("text-anchor", "middle"); 
 
     var pieChartLabels = svgContainer.append("g").attr("id","pie-chart-labels");
     pieChartLabels.selectAll("text").data(colorDescriptions).enter().append("svg:text")
         .text(function(d) { return d.label; } ).attr("x",440)
-        .attr("y",function(d, i) { return 10 + i*30; });
+        .attr("y",function(d, i) { return 14 + i*30; })
+        .style("font-weight", "bold")
+        .style("font-size", "20px");
     
     var pieChartLabelsColors = svgContainer.append("g").attr("id","pie-chart-labels-colors");
     pieChartLabelsColors.selectAll("rect").data(colorDescriptions).enter().append("rect")
