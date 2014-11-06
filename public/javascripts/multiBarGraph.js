@@ -103,7 +103,7 @@ multiBarGraph.displayXAxisDescription = function(group, dimension, maxLength, me
       var x_axis_label = group.append("g").attr("class", "x_axis_label");
       var x_label = x_axis_label.append("text")
       .attr("class", "x_axis_label")
-      .attr("y", dimension.chartBottomY + (maxLength*10))
+      .attr("y", dimension.chartBottomY + (maxLength*25))
       .attr("x", dimension.chartTopX + (xDistance/2))
       .text(metadata.lable1)
       .style("font-weight", "bold")
@@ -138,6 +138,7 @@ multiBarGraph.displayValue = function(percentageGroups , data , xDistance , char
             .attr("class", "tick-label")
             .attr("y", function(d) { return chartBottomY - yScale(d.value3) - 10})
             .attr("x", function(d, i) { return chartTopX + ((xDistance/(data.length))*(i+0.2))+40; });
+      
       if(barCount < 3) return;
       var thirdGroup = percentageGroups.append("g");
       thirdGroup.selectAll("text").data(data).enter().append("svg:text")
@@ -145,6 +146,27 @@ multiBarGraph.displayValue = function(percentageGroups , data , xDistance , char
             .attr("class", "tick-label")
             .attr("y", function(d) { return chartBottomY - yScale(d.value4) - 10})
             .attr("x", function(d, i) { return chartTopX + ((xDistance/(data.length))*(i+0.2)) + 80; });
+}
+
+multiBarGraph.drawIndex = function(group , metadata , chartBottomX , chartTopY){
+      var keys = Object.keys(metadata).slice(1);
+
+      var labels = group.append("g").attr("id","labels");
+      labels.selectAll("text").data(keys).enter().append("svg:text")
+            .text(function(d , i) { return metadata[d]; } )
+            .attr("x",chartBottomX + 100)
+            .attr("y",function(d, i) { return chartTopY + i*30 + 13; })
+            .style("font-size", "20px");
+
+      var colors = ["#00b3dc" , "#DEB887" , "#7B68EE"].slice(0,keys.length);
+      
+      var labelsColors = group.append("g").attr("id","labels-colors");
+      labelsColors.selectAll("rect").data(colors).enter().append("rect")
+            .attr("x",chartBottomX + 50)
+            .attr("y",function(d, i) { return chartTopY + i*30; })
+            .attr("width", 25)
+            .attr("height", 15)
+            .style("fill" , function(d) { return d; });
 }
 
 multiBarGraph.draw = function(data, metadata) {
@@ -179,4 +201,6 @@ multiBarGraph.draw = function(data, metadata) {
 
       var percentageGroups = group.append("g").attr("class", "percentage")
       this.displayValue(percentageGroups , data , xDistance , dimension.chartBottomY ,yScale, dimension.chartTopX);
+
+      this.drawIndex(group , metadata , dimension.chartBottomX , dimension.chartTopY);
 };
