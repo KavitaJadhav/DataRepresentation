@@ -41,3 +41,15 @@ databaseHandler.formQuery = function(reqBody) {
   var yAxisTitle = reqBody['yAxis'];
   return "SELECT " + xAxisTitle + "," + yAxisTitle + " FROM " + tableName + ";";
 };
+
+databaseHandler.fetchDataAndDisplayForBubbleChart = function(request, response, con, dataRepresentator){
+  var query = "SELECT " + request.body.xAxis + "," + request.body.yAxis +
+           "," + request.body.desc + " FROM " + request.body.tableName + ";"; 
+
+  return con.connection.query(query, function(err, rows, fields) {
+    if (err) 
+        throw err;
+    dataRepresentator.display(request, rows, response);
+    response.end();
+  });
+};

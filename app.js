@@ -24,9 +24,12 @@ if ('development' == app.get('env')) {
 
 app.get('/', handler.home);
 
+
 app.post('/barGraph', handler.resultSet);
 app.post('/pieChart', handler.resultSet);
 app.post('/donutGraph', handler.resultSet);
+
+app.post('/bubbleGraph', handler.bubbleGraphResultSet);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

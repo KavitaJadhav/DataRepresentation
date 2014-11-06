@@ -96,6 +96,14 @@ barGraph.displayYAxisDescription = function(group, dimension, yDistance, metadat
       .style("font-size", "19px");  
 } 
 
+barGraph.displayValue = function(percentageGroups , data , xDistance , chartBottomY , yScale, chartTopX){
+      percentageGroups.selectAll("text").data(data).enter().append("svg:text")
+            .text(function(d) { return d.value;})
+            .attr("class", "tick-label")
+            .attr("y", function(d) { return chartBottomY - yScale(d.value) - 10})
+            .attr("x", function(d, i) { return chartTopX + ((xDistance/(data.length))*(i+0.5)); });
+}
+
 barGraph.draw = function(data, metadata) {
       var svgContainer = d3.select("body").append("svg").attr("width",1100).attr("height",1100); 
       var maxValue = this.getMaxValueOnYAxis(data);
@@ -123,6 +131,9 @@ barGraph.draw = function(data, metadata) {
       var barLabelGroups = group.append("g").attr("class", "bar-label");
 
       var maxLength = this.maxLabelLength(data);
-      this.displayXAxisDescription(group, dimension, maxLength, metadata, xDistance);
+      this.displayXAxisDescription(group, dimension, maxLength, metadata, xDistance);      
       this.displayYAxisDescription(group, dimension, yDistance, metadata);
+
+      var percentageGroups = group.append("g").attr("class", "percentage")
+      this.displayValue(percentageGroups , data , xDistance , dimension.chartBottomY ,yScale, dimension.chartTopX);
 };

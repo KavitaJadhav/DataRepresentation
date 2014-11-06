@@ -8,6 +8,9 @@ var handler = {
 	},
 	home : function(req,res){
     	databaseHandler.getTableNames(req, res, con);
+    },
+	bubbleGraphResultSet : function(req, res) {
+		databaseHandler.fetchDataAndDisplayForBubbleChart(req, res, con, dataRepresentator);
 	}
 };
 
