@@ -51,12 +51,18 @@ pieChart.draw = function(data , metadata, innerRadiusOfPieChart) {
         .style("font-weight", "bold")
         .style("font-size", "20px");
 
+
+    var descriptionText = innerRadiusOfPieChart >0 ? "Donut Chart of " : "Pie Chart of ";
+
+
+    descriptionText = descriptionText + metadata.x + " with " + metadata.y;
+
     var description = svgContainer.append("g").attr("class", "description");
     var desc_label = description.append("text")
         .attr("class", "description")
         .attr("y", 300)
         .attr("x", 000)
-        .text("Pie Chart of "+ metadata.x + " with " + metadata.y)
+        .text(descriptionText)
         .style("font-weight", "bold")
         .style("font-size", "20px")
         .style("text-anchor", "middle"); 
