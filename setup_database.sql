@@ -53,6 +53,7 @@ insert into student values(1010 , 'Ms. Anna' , 68 , 74 , 88 ,86 , 79);
 
 select * from student;
 
+
 -- Crime details --
 
 drop table IF EXISTS CrimeDetails;
