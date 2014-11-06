@@ -13,6 +13,9 @@ h1{
 #donutGraph {
 	display: none;
 }
+#bubbleGraph {
+	display: none;
+}
 #lineGraph {
 	display: none;
 }

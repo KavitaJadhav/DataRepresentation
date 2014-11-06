@@ -5,6 +5,10 @@ var con = require('./database/databaseConnection.js').connect;
 var handler = {
 	resultSet : function(req,res){
     	databaseHandler.fetchDataAndDisplay(req, res, con, dataRepresentator);
+	},
+
+	bubbleGraphResultSet : function(req, res) {
+		databaseHandler.fetchDataAndDisplayForBubbleChart(req, res, con, dataRepresentator);
 	}
 };
 
