@@ -4,10 +4,13 @@ html
     link(rel='stylesheet' , href='/stylesheets/bootstrap.min.css' type='text/css')
     script.
       function showHide(shID) {
+      var graphs = ['barGraph', 'pieChart', 'donutGraph'];
       if (document.getElementById(shID)) {
       if (document.getElementById(shID).style.display!='block') {
-      var anotherInput = ((shID=='barGraph')?'pieChart':'barGraph');
-      document.getElementById(anotherInput).style.display = 'none';
+      var allOtherGraphs = graphs.filter(
+        function(element) {if(element!=shID) return element; });
+      allOtherGraphs.forEach(
+        function(element) { document.getElementById(element).style.display = 'none'; });
       document.getElementById(shID).style.display = 'block';
       }
       }
@@ -25,6 +28,10 @@ html
           li
             a#pieChart-show.showLink(onclick='showHide(\'pieChart\');')
               | Pie Chart
+          br
+          li
+            a#donutGraph-show.showLink(onclick='showHide(\'donutGraph\');')
+              | Donut Chart
     #pieChart.more
       .login
         form(method='post', action='/pieChart', name='pieChartInputForm')
@@ -48,8 +55,23 @@ html
             p
               input(type='text', name='tableName', placeholder='table name')
             p
-              input(type='text', name='xAxis', placeholder='x axis')
+              input(type='text', name='xAxis', placeholder='description column')
             p
-              input(type='text', name='yAxis', placeholder='y axis')
+              input(type='text', name='yAxis', placeholder='comparison column')
           p.submit
             input(type='submit', value='Submit')
+    #donutGraph.more
+      .login
+        form(method='post', action='/donutGraph', name='donutGraphInputForm')
+          p.inputBoxName
+            b Donut Graph
+          .inputList
+            p
+              input(type='text', name='tableName', placeholder='table name')
+            p
+              input(type='text', name='xAxis', placeholder='description column')
+            p
+              input(type='text', name='yAxis', placeholder='comparison column')
+          p.submit
+            input(type='submit', value='Submit')
+    
