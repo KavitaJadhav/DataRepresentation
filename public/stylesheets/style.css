@@ -10,6 +10,12 @@ h1{
 #barGraph {
 	display: none;
 }
+#donutGraph {
+	display: none;
+}
+#lineGraph {
+	display: none;
+}
 #content{
 	width:300px;
 	background-color: #eee;

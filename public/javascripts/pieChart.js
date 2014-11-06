@@ -1,6 +1,16 @@
 var pieChart = {};
 
-pieChart.draw = function(data , metadata) {
+pieChart.createContainer = function(data, width, height) {
+    return d3.select("body")
+        .append("svg:svg")
+        .data([data])
+        .attr("width", width)
+        .attr("height", height)
+        .append("svg:g")
+        .attr("transform", "translate(" + 300 + "," + 300 + ")") ;
+} 
+
+pieChart.draw = function(data , metadata, innerRadiusOfPieChart) {
     var width = 1100,
     height = 650,
     radius = 250,
@@ -8,17 +18,11 @@ pieChart.draw = function(data , metadata) {
 
     var colorDescriptions = [];
  
-    var svgContainer = d3.select("body")
-        .append("svg:svg")
-        .data([data])
-        .attr("width", width)
-        .attr("height", height)
-        .append("svg:g")
-        .attr("transform", "translate(" + 300 + "," + 300 + ")") ;
-
+    var svgContainer = pieChart.createContainer(data, width, height);
 
     var arc = d3.svg.arc()
-        .outerRadius(radius);
+        .outerRadius(radius)
+        .innerRadius(innerRadiusOfPieChart);
  
     var pie = d3.layout.pie()
         .value(function(d) { return d.value; });

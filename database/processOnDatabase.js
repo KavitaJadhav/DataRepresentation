@@ -16,5 +16,5 @@ databaseHandler.formQuery = function(reqBody) {
   var tableName = reqBody['tableName'];
   var xAxisTitle = reqBody['xAxis'];
   var yAxisTitle = reqBody['yAxis'];
-  return "SELECT " + xAxisTitle + "," + yAxisTitle + " FROM " + tableName;
+  return "SELECT " + xAxisTitle + "," + yAxisTitle + " FROM " + tableName + ";";
 };
