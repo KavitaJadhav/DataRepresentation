@@ -43,8 +43,9 @@ barGraph.drawLabelsOnXAxis = function(xLabelsGroups, data, dimension, xDistance)
       xLabelsGroups.selectAll("text").data(data).enter().append("svg:text")
       .text(function(d) { return d.label;})
       .attr("class", "tick-label")
+      .style("text-anchor" ,"end")
       .attr("transform", function (d, i)  {
-            return "translate(" + (dimension.chartTopX + ((xDistance/(data.length))*(i+0.5) + 20) + "," + (dimension.chartBottomY + 50) +") rotate(270)") })
+            return "translate(" + (dimension.chartTopX + ((xDistance/(data.length))*(i+0.5) + 20) + "," + ((dimension.chartBottomY) + 20)+") rotate(270)") })
 };
 
 barGraph.drawLabelsOnYAxis = function(yLabelsGroups, dimension, maxValue, numOfTicks, yDistance) {
@@ -77,7 +78,7 @@ barGraph.displayXAxisDescription = function(group, dimension, maxLength, metadat
       var x_axis_label = group.append("g").attr("class", "x_axis_label");
       var x_label = x_axis_label.append("text")
       .attr("class", "x_axis_label")
-      .attr("y", dimension.chartBottomY + (maxLength*17))
+      .attr("y", dimension.chartBottomY + (maxLength*10))
       .attr("x", dimension.chartTopX + (xDistance/2))
       .text(metadata.x)
       .style("font-weight", "bold")
