@@ -57,7 +57,7 @@ bubbleGraph.drawLabelsOnYAxis = function(yLabelsGroups, dimension, maxValue, num
       .attr("y", function(d, i) { return dimension.chartBottomY - (yDistance/(numOfTicks - 1)*i); });
 };
 
-bubbleGraph.drawCircles = function(bubbleGroup, data, dimension, yScale, xScale, color) {
+bubbleGraph.drawCircles = function(bubbleGroup, data, dimension, yScale, xScale, color, metadata) {
       var maxRadius = this.getMaxValue(data,"circleR");
       var descOrderedData = data.sort(function (dataPoint1,dataPoint2) {
             return dataPoint2.circleR - dataPoint1.circleR;
@@ -67,7 +67,10 @@ bubbleGraph.drawCircles = function(bubbleGroup, data, dimension, yScale, xScale,
         .attr('class', 'd3-tip')
         .offset([-10, 0])
         .html(function(d) {
-          return "<strong> "+d.desc+"<br>"+d.xAxis+"<br>"+ d.yAxis+"<br>"+d.circleR+"</strong> ";
+          return "<strong>"+ metadata.desc +" : "+ d.desc +"<br>"+
+                  metadata.xAxis +" : "+ d.xAxis +"<br>"+
+                  metadata.yAxis +" : "+ d.yAxis +"<br>"+
+                  metadata.circleR +" : "+ d.circleR+"</strong> ";
       });
 
       bubbleGroup.selectAll("circle").data(descOrderedData).enter().append("circle")
@@ -128,10 +131,20 @@ bubbleGraph.draw = function(data, metadata) {
       var yScale = d3.scale.linear().domain([0, maxValueOfYAxis]).range([0, yDistance]);
       var xScale = d3.scale.linear().domain([0, maxValueOfXAxis]).range([0, xDistance]);
       var bubbleGroup = group.append("g").attr("class", "bubbles");
-      this.drawCircles(bubbleGroup, data, dimension, yScale, xScale, color);
+      this.drawCircles(bubbleGroup, data, dimension, yScale, xScale, color, metadata);
 
       var bubbleChartGroup = group.append("g").attr("class", "bubble-label");
 
       this.displayXAxisDescription(group, dimension,  xDistance, metadata);
       this.displayYAxisDescription(group, dimension, yDistance, metadata);
+
+      var description = svgContainer.append("g").attr("class", "description");
+      var desc_label = description.append("text")
+        .attr("class", "description")
+        .attr("x", 500)
+        .attr("y", dimension.chartBottomY + 150)
+        .text(metadata.tableName)
+        .style("font-weight", "bold")
+        .style("font-size", "30px")
+        .style("text-anchor", "middle");
 };

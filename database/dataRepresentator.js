@@ -27,7 +27,7 @@ var createRowForBubbleChart = function(desc, xAxis, yAxis, circleR) {
   return obj;
 };
 
-dataRepresentator.formatForBubbleGraph = function(rows) {
+dataRepresentator.formatForBubbleGraph = function( tableName, rows) {
   var keys = Object.keys(rows[0]);
   var labelledValues = [];
 
@@ -35,14 +35,15 @@ dataRepresentator.formatForBubbleGraph = function(rows) {
     labelledValues.push(createRowForBubbleChart(row[keys[0]], row[keys[1]], row[keys[2]], row[keys[3]]));
   });
 
-  return {  'metadata' : {'desc' : keys[0] , 'xAxis' : keys[1], 'yAxis' : keys[2], 'circleR' : keys[3] }, 
+  return {  'metadata' : {'desc' : keys[0] , 'xAxis' : keys[1], 'yAxis' : keys[2], 'circleR' : keys[3], 'tableName' : tableName }, 
             'actualdata': labelledValues  };
 };
 
 dataRepresentator.display = function(request, rows, response) {  
+  var tableName = request.body.tableName;
   var graphType = (request.route.path).slice(1).toString();
   if(graphType == 'bubbleGraph')
-    response.render(graphType, {data : this.formatForBubbleGraph(rows)});
+    response.render(graphType, {data : this.formatForBubbleGraph(tableName, rows)});
   response.render(graphType, {data : this.format(rows)});
 };
 
