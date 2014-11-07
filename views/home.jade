@@ -13,6 +13,7 @@ html
         allOtherGraphs.forEach(
         function(element) { document.getElementById(element).style.display = 'none'; });
         document.getElementById(shID).style.display = 'block';
+        document.getElementById("help1").style.display = 'none';
       }
       }
       }
@@ -40,7 +41,9 @@ html
           br
           li
             a#multiBarGraph-show.showLink(onclick='showHide(\'multiBarGraph\');')
-              | Multi Bar Graph          
+              | Multi Bar Graph
+    #help1.help
+      p Please select a graph type. The tables available in the database are listed on the right.
     #pieChart.more
       .login
         form(method='post', action='/pieChart', name='pieChartInputForm')

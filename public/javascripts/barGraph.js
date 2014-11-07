@@ -86,15 +86,20 @@ barGraph.displayXAxisDescription = function(group, dimension, maxLength, metadat
       .text(metadata.x)
       .style("font-weight", "bold")
       .style("font-size", "19px");
-
-      var description = "Bar Graph: "  + metadata.x + " vs " + metadata.y;
-      x_axis_label.append("text").attr("class", "description")
-      .attr("y", dimension.chartBottomY + (maxLength*10) + 20)
-      .attr("x", dimension.chartTopX - (description.length*4) + (xDistance/2))
-      .text(description)
-      .style("font-weight", "bold")
-      .style("font-size", "19px");
 };
+
+barGraph.displayTableInfo = function( group , metadata , dimension){
+      var description = "Bar Graph: "  + metadata.x + " vs " + metadata.y;
+
+      var graphDescription = group.append("g").attr("class", "graph_description");
+      var description = graphDescription.append("text").
+            attr("class", "graph_description")
+            .attr("y", dimension.chartTopY - 50)
+            .attr("x", dimension.chartTopX + 100)
+            .text(description)
+            .style("font-weight", "bold")
+            .style("font-size", "19px");
+}
 
 barGraph.displayYAxisDescription = function(group, dimension, yDistance, metadata) {
       var y_axis_label = group.append("g").attr("class", "y_axis_label")
@@ -144,6 +149,8 @@ barGraph.draw = function(data, metadata) {
       var maxLength = this.maxLabelLength(data);
       this.displayXAxisDescription(group, dimension, maxLength, metadata, xDistance);
       this.displayYAxisDescription(group, dimension, yDistance, metadata);
+
+      this.displayTableInfo(group , metadata ,dimension); 
 
       var percentageGroups = group.append("g").attr("class", "percentage")
       this.displayValue(percentageGroups , data , xDistance , dimension.chartBottomY ,yScale, dimension.chartTopX);
