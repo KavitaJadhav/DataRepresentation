@@ -72,6 +72,21 @@ h1{
 	border-color: #eee;
 	border-radius: 15px;
 }
+
+.help{
+
+	padding: 20px;
+	background-color: #eee;
+	width: 560px;
+	height: 300px;
+	float: left;
+	margin: 80px;
+	margin-left: 110px;
+	box-shadow: 10px 10px 15px #888888;
+	border: solid;
+	border-color: #eee;
+	border-radius: 15px;
+}
 .loginbubble{
 	padding: 20px;
 	margin-left: 30px;
@@ -186,4 +201,12 @@ ul li ul li:hover {
 }
 ul li:hover ul {
   visibility: visible;
+}
+
+#help1 {
+	display: block;
+	text-align: center;
+	padding: 110px 10px;
+	font-family: Verdana;
+	font-size: 20px;
 }
