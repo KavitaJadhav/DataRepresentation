@@ -53,11 +53,15 @@ h1{
     margin: 0 auto;
 }
 #list {
-	width: screen.width;
-	height: 700px;
+	height: 500px;
 	margin: 20px;
 	float: left;
-	font-size: 20px;	
+	font-size: 20px;
+	background-color: #eee;
+	border: solid;
+	border-color: lightgray;
+	box-shadow: 10px 10px 10px #888888;
+	border-radius: 10px;	
 }
 
 .login{
@@ -69,7 +73,7 @@ h1{
 	float: left;
 	box-shadow: 10px 10px 15px #888888;
 	border: solid;
-	border-color: #eee;
+	border-color: lightgray;
 	border-radius: 15px;
 }
 .loginbubble{
@@ -90,12 +94,14 @@ h1{
 }
 .note{
 	background-color: #eee;
-	height: 30px;
-	width: 130px;
-	padding: 8px;
+	height: 40px;
+	width: 140px;
+	padding: 10px;
 	margin-left: 120px;
-	font-size: 1em;
+	font-size: 1.05em;
 	float: center;
+	border-radius: 6px;
+
 }
 .submit{
 	padding: 20px;
@@ -154,14 +160,15 @@ h1{
   margin-left: 20px;
   position: relative;
   padding: 15px 20px;
-  background: #ddd;
+  background: #eee;
+  border-radius: 6px;
   list-style: none;
   margin-top: 20px; 
 
 }
 .columnName:hover {
-  background: #B1B4BA;
-  color: #eee;
+  background: lightgray;
+  color: #262103;
 }
 ul li ul {
   padding: 0;
@@ -176,8 +183,9 @@ ul li ul {
   list-style: none; 
 }
 ul li ul li { 
-  background: #B1B4BA; 
-  color: #fff;
+  background: #eee; 
+  border-radius: 6px;
+  color: black;
   padding: 15px;
   height: 50px;
 }
