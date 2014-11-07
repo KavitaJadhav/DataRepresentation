@@ -147,4 +147,41 @@ bubbleGraph.draw = function(data, metadata) {
         .style("font-weight", "bold")
         .style("font-size", "30px")
         .style("text-anchor", "middle");
+
+
+      var interval = this.getIntervals(maxValueOfYAxis, numOfTicks);
+
+      svgContainer.selectAll("line.horizontalGrid").data(interval).enter()
+      .append("line")
+        .attr(
+        {
+            "class":"horizontalGrid",
+            "x1" : dimension.chartLeftX,
+            "x2" : dimension.chartRightX,
+            "y1" : function(d){ return dimension.chartTopY + yScale(d);},
+            "y2" : function(d){ return dimension.chartTopY + yScale(d);},
+            "fill" : "none",
+            "shape-rendering" : "crispEdges",
+            "stroke" : "#787878 ",
+            "stroke-width" : "1px",
+            "stroke-opacity": 0.2
+        })
+
+      var interval = this.getIntervals(maxValueOfXAxis, numOfTicks);
+
+      svgContainer.selectAll("line.verticalGrid").data(interval).enter()
+      .append("line")
+        .attr(
+        {
+            "class":"verticalGrid",
+            "x1" : function(d){ return dimension.chartLeftX + xScale(d);},
+            "x2" : function(d){ return dimension.chartLeftX + xScale(d);},
+            "y1" : dimension.chartTopY,
+            "y2" : dimension.chartBottomY,
+            "shape-rendering" : "crispEdges",
+            "stroke" : "black",
+            "stroke-opacity" : 0.2,
+            "stroke-width" : "1px",
+            "stroke-opacity" : 0.2
+        })
 };
