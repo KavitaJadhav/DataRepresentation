@@ -19,9 +19,10 @@ barGraph.getChartDimension = function(data, metadata, maxValue) {
 barGraph.maxLabelLength = function(data) {
       return data.map(function(obj) { return obj.label; })
             .reduce(function(prev, curr) { return prev.length>curr.length?prev:curr; }).length;
-}
+};
 
-barGraph.drawYAxis = function(lineGroup, dimension) {
+//drawAxis function
+barGraph.drawXAxis = function(lineGroup, dimension) {
       lineGroup.append("line")
       .attr("x1", dimension.chartTopX)
       .attr("y1", dimension.chartBottomY)
@@ -30,7 +31,7 @@ barGraph.drawYAxis = function(lineGroup, dimension) {
       .attr("stroke","black");
 };
 
-barGraph.drawXAxis = function(lineGroup, dimension) {
+barGraph.drawYAxis = function(lineGroup, dimension) {
       lineGroup.append("line")
       .attr("x1", dimension.chartTopX)
       .attr("y1", dimension.chartBottomY)
@@ -48,14 +49,18 @@ barGraph.drawLabelsOnXAxis = function(xLabelsGroups, data, dimension, xDistance,
             return "translate(" + (dimension.chartTopX + ((xDistance/(data.length))*(i+0.5) + deviation) + "," + ((dimension.chartBottomY) + 20)+") rotate(270)") });
 };
 
-barGraph.drawLabelsOnYAxis = function(yLabelsGroups, dimension, maxValue, numOfTicks, yDistance) {
-      var interval = [];
+barGraph.getValuesOnYAxis = function(maxValue, numOfTicks) {
+      var yAxisLabels = [];
       for(i = 0; i < numOfTicks; i++) 
-            interval.push((maxValue/(numOfTicks-1))*i);
-      yLabelsGroups.selectAll("text").data(interval).enter().append("svg:text")
+            yAxisLabels.push((maxValue/(numOfTicks-1))*i);
+      return yAxisLabels;
+};
+
+barGraph.drawLabelsOnYAxis = function(yLabelsGroups, dimension, yAxisLabels, maxValue, maxValue, yScale) {
+      yLabelsGroups.selectAll("text").data(yAxisLabels).enter().append("svg:text")
       .text(function(d) {return d;})
       .attr("x", dimension.chartTopX - maxValue.toString().length * 10)
-      .attr("y", function(d, i) { return dimension.chartBottomY - (yDistance/(numOfTicks - 1)*i); });
+      .attr("y", function(d, i) { return dimension.chartBottomY - yScale(d); });
 };
 
 barGraph.drawBars = function(barGroup, data, dimension, yScale, xDistance) {
@@ -105,7 +110,7 @@ barGraph.displayYAxisDescription = function(group, dimension, yDistance, metadat
       .text(metadata.y)
       .style("font-weight", "bold")
       .style("font-size", "19px");  
-} 
+};
 
 barGraph.displayValue = function(percentageGroups , data , xDistance , chartBottomY , yScale, chartTopX){
       percentageGroups.selectAll("text").data(data).enter().append("svg:text")
@@ -113,7 +118,17 @@ barGraph.displayValue = function(percentageGroups , data , xDistance , chartBott
             .attr("class", "tick-label")
             .attr("y", function(d) { return chartBottomY - yScale(d.value) - 10})
             .attr("x", function(d, i) { return chartTopX + ((xDistance/(data.length))*(i+0.5)); });
-}
+};
+
+barGraph.drawTicks = function(tickLineGroup, yAxisLabels, yScale, dimension) {
+      tickLineGroup.selectAll("line").data(yAxisLabels).enter().append("line")
+      .attr("x1", dimension.chartTopX)
+      .attr("y1", function(d, i) { return dimension.chartBottomY - yScale(d); })
+      .attr("x2", dimension.chartBottomX)
+      .attr("y2", function(d, i) { return dimension.chartBottomY - yScale(d); })
+      .attr("stroke", "black")
+      .attr("stroke-opacity", 0.09);
+};
 
 barGraph.draw = function(data, metadata) {
       var svgContainer = d3.select("body").append("svg").attr("width",1100).attr("height",1100); 
@@ -125,6 +140,8 @@ barGraph.draw = function(data, metadata) {
       var xDistance = dimension.chartBottomX - dimension.chartTopX;
       var group = svgContainer.append("g");
 
+      var yScale = d3.scale.linear().domain([0, maxValue]).range([0, yDistance]);
+
       var lineGroup = group.append("g").attr("class", "line");
       this.drawYAxis(lineGroup, dimension);
       this.drawXAxis(lineGroup, dimension);      
@@ -133,9 +150,12 @@ barGraph.draw = function(data, metadata) {
       this.drawLabelsOnXAxis(xLabelsGroups, data, dimension, xDistance, 20);
 
       var yLabelsGroups = group.append("g").attr("class", "y-labels");
-      this.drawLabelsOnYAxis(yLabelsGroups, dimension, maxValue, numOfTicks, yDistance);
+      var yAxisLabels = this.getValuesOnYAxis(maxValue, numOfTicks);
+      this.drawLabelsOnYAxis(yLabelsGroups, dimension, yAxisLabels, maxValue, maxValue, yScale);
+      
+      var tickLineGroup = group.append("g").attr("class", "tick-lines")
+      this.drawTicks(tickLineGroup, yAxisLabels, yScale, dimension);
 
-      var yScale = d3.scale.linear().domain([0, maxValue]).range([0, yDistance]);
       var barGroup = group.append("g").attr("class", "bars");
       this.drawBars(barGroup, data, dimension, yScale, xDistance);
 

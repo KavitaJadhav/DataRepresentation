@@ -7,7 +7,7 @@ lineGraph.getDimension = function() {
 	dimension.chartBottomY = 500;
 	return dimension;
 };
-lineGraph.drawPath = function(svgContainer,data, dimension, yScale, xDistance) {
+lineGraph.drawPath = function(svgContainer, data, dimension, yScale, xDistance) {
 	var yPoints = data.map(function(element) { return dimension.chartBottomY - yScale(element.value);});
 	var lines = svgContainer.append("g");
 	lines.selectAll("line").data(yPoints).enter().append("line")
@@ -44,6 +44,8 @@ lineGraph.draw = function(data, metadata) {
 	var xDistance = dimension.chartBottomX - dimension.chartTopX;
 	var group = svgContainer.append("g");
 
+	var yScale = d3.scale.linear().domain([0, maxValue]).range([0, yDistance]);
+
 	var lineGroup = group.append("g").attr("class", "line");
 	barGraph.drawYAxis(lineGroup, dimension);
 	barGraph.drawXAxis(lineGroup, dimension);  
@@ -52,9 +54,9 @@ lineGraph.draw = function(data, metadata) {
 	barGraph.drawLabelsOnXAxis(xLabelsGroups, data, dimension, xDistance, 0);
 
 	var yLabelsGroups = group.append("g").attr("class", "y-labels");
-	barGraph.drawLabelsOnYAxis(yLabelsGroups, dimension, maxValue, numOfTicks, yDistance);
+    var yAxisLabels = barGraph.getValuesOnYAxis(maxValue, numOfTicks);
+    barGraph.drawLabelsOnYAxis(yLabelsGroups, dimension, yAxisLabels, maxValue, maxValue, yScale);
 	
-	var yScale = d3.scale.linear().domain([0, maxValue]).range([0, yDistance]);
 	this.drawPath(group, data, dimension, yScale, xDistance);
 
 	var maxLength = barGraph.maxLabelLength(data);
