@@ -53,6 +53,24 @@ insert into student values(1010 , 'Ms. Anna' , 68 , 74 , 88 ,86 , 79);
 
 select * from student;
 
+--
+drop table IF EXISTS export;
+
+create table export
+(
+	year int,
+	electronics int,
+	food int,
+	metals int
+);
+
+insert into export values( 2005 , 60000 , 40000 , 80000);
+insert into export values( 2006 , 54600 , 61000 , 65290);
+insert into export values( 2007 , 26100 , 72388 , 89900);
+insert into export values( 2008 , 40002 , 45366  ,56990);
+
+select * from export;
+
 -- Crime details --
 
 drop table IF EXISTS CrimeDetails;

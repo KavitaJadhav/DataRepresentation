@@ -22,7 +22,7 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/',routes.home);
+app.get('/', handler.home);
 
 
 app.post('/barGraph', handler.resultSet);

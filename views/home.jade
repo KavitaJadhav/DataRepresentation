@@ -2,6 +2,7 @@ html
   head
     link(rel='stylesheet', href='/stylesheets/style.css', type='text/css')
     link(rel='stylesheet' , href='/stylesheets/bootstrap.min.css' type='text/css')
+    script(type='text/javascript', src='/javascripts/d3.v3.min.js', charset='utf-8')
     script.
       function showHide(shID) {
       var graphs = ['barGraph', 'pieChart', 'donutGraph','bubbleGraph'];
@@ -9,9 +10,9 @@ html
       if (document.getElementById(shID).style.display!='block') {
       var allOtherGraphs = graphs.filter(
         function(element) {if(element!=shID) return element; });
-      allOtherGraphs.forEach(
+        allOtherGraphs.forEach(
         function(element) { document.getElementById(element).style.display = 'none'; });
-      document.getElementById(shID).style.display = 'block';
+        document.getElementById(shID).style.display = 'block';
       }
       }
       }
@@ -96,3 +97,19 @@ html
               input(type='text', name='circleR', placeholder='comparison column')
           p.submit
             input(type='submit', value='Submit')
+
+    .listname
+      ul.tableNames
+    script.
+      var getInnerHtml = function(table) {
+        return table.columns.map(function(columnName) {
+        return "<li>" + columnName + "</li>";
+      }).join("\n");
+      };
+      var onload = function(tablenames){
+        d3.select(".tablenames").selectAll("li").data(tablenames).enter()
+        .append("li").attr("class", "columnName")
+        .text(function(d) { return d.table_name; })
+        .append("ul").html(getInnerHtml);
+      }
+      onload(!{JSON.stringify(tableWithColumns)})
