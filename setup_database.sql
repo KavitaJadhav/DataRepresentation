@@ -3,9 +3,9 @@ grant all on `test`.* to 'data_rep'@'localhost' identified by 'password';
 USE test;
 
 -- bookcatalog table --
-drop table IF EXISTS bookcatalog;
+drop table IF EXISTS BookCatalog;
 	
-create table bookcatalog
+create table BookCatalog
 (
 	isbn varchar(50) NOT NULL PRIMARY KEY , 
 	name varchar(80),
@@ -31,7 +31,7 @@ drop table IF EXISTS student;
 
 create table student
 (
-	STUDENT_ID int,
+	student_id int NOT NULL PRIMARY KEY ,
 	name varchar(50),
 	maths int,
 	english int,
@@ -54,7 +54,7 @@ insert into student values(1010 , 'Ms. Anna' , 68 , 74 , 88 ,86 , 79);
 select * from student;
 
 --
-drop table IF EXISTS export;
+drop table IF EXISTS Export;
 
 create table export
 (
@@ -79,7 +79,7 @@ create table CrimeDetails
 (
 	state varchar(20),
 	murder decimal(10,2),
-	Robbery decimal(10,2),
+	robbery decimal(10,2),
 	burglary decimal(10,2),
 	population int
 );
