@@ -51,7 +51,7 @@ multiBarGraph.drawLabelsOnXAxis = function(xLabelsGroups, data, dimension, xDist
       .attr("class", "tick-label")
       .style("text-anchor" ,"end")
       .attr("transform", function (d, i)  {
-            return "translate(" + (dimension.chartTopX + ((xDistance/(data.length))*(i+0.5) + 60) + "," + ((dimension.chartBottomY) + 20)+") rotate(270)") })
+            return "translate(" + (dimension.chartTopX + ((xDistance/(data.length))*(i+0.5)) + "," + ((dimension.chartBottomY) + 20)+") rotate(270)") })
 };
 
 multiBarGraph.drawLabelsOnYAxis = function(yLabelsGroups, dimension, maxValue, numOfTicks, yDistance) {
@@ -172,7 +172,7 @@ multiBarGraph.drawIndex = function(group , metadata , chartBottomX , chartTopY){
 multiBarGraph.displayTableInfo = function(group, metadata ,dimension){
       var descriptionText = metadata.tableName + " information for " + metadata.label2 +" , " + metadata.label3
             +" , " + metadata.label4 + " with " + metadata.label1;
-            
+
       var graphDescription = group.append("g").attr("class", "graph_description");
       var description = graphDescription.append("text")
       .attr("class", "graph_description")
