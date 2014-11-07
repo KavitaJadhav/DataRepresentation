@@ -20,8 +20,8 @@ databaseHandler.formQuery = function(reqBody) {
 };
 
 databaseHandler.fetchDataAndDisplayForBubbleChart = function(request, response, con, dataRepresentator){
-  var query = "SELECT " + request.body.xAxis + "," + request.body.yAxis +
-           "," + request.body.desc + " FROM " + request.body.tableName + ";"; 
+  var query = "SELECT " + request.body.desc + "," + request.body.xAxis + "," + request.body.yAxis +
+           "," + request.body.circleR + " FROM " + request.body.tableName + ";"; 
 
   return con.connection.query(query, function(err, rows, fields) {
     if (err) 
