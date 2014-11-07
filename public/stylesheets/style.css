@@ -1,8 +1,10 @@
+
 h1{
 	background-color: #eee;
 	font-style: bold;
 	height: 100px;
 	padding-top: 30px;
+	box-shadow: 10px 10px 15px #888888;
 }
 #pieChart {
 	display: none;
@@ -13,7 +15,7 @@ h1{
 #donutGraph {
 	display: none;
 }
-#lineGraph {
+#bubbleGraph {
 	display: none;
 }
 #content{
@@ -57,11 +59,15 @@ h1{
 
 .login{
 	padding: 20px;
-	margin-left: 80px;
+	margin-left: 30px;
 	background-color: #eee;
 	width: 560px;
 	height: 300px;
 	float: left;
+	box-shadow: 10px 10px 15px #888888;
+	border: solid;
+	border-color: #eee;
+	border-radius: 15px;
 }
 .inputBoxName{
 	padding-left: 210px;
@@ -74,4 +80,52 @@ h1{
 .inputList{
 	font-size: 1.5em;
 	margin-left: 150px;
+}
+.listname{
+	margin-left: 1100px;
+	width: 280px;
+	margin-top: 50px;
+}
+
+.columnName{
+  font: bold 18px/20px sans-serif;
+  text-align: center;
+  width: 250px;
+  margin-right: 70px;
+  margin-left: 20px;
+  position: relative;
+  padding: 15px 20px;
+  background: #ddd;
+  list-style: none;
+  margin-top: 20px; 
+
+}
+.columnName:hover {
+  background: #B1B4BA;
+  color: #eee;
+}
+ul li ul {
+  padding: 0;
+  position: absolute;
+  top: 48px;
+  text-align: center;
+  left: 0;
+  width: 250px;
+  height: 100px;
+  z-index: 1;
+  visibility: hidden;
+  margin-top: 10px;
+  list-style: none; 
+}
+ul li ul li { 
+  background: #B1B4BA; 
+  color: #fff;
+  padding: 15px;
+  height: 50px;
+}
+ul li ul li:hover { 
+  background: #C0C0C0; 
+}
+ul li:hover ul {
+  visibility: visible;
 }
