@@ -1,6 +1,9 @@
 var barGraph = {};
 
 barGraph.getMaxValueOnYAxis = function(data) {
+      var values = data.map(function(element) {
+            return element.value;
+      });
       var maxValue = data.reduce(function(obj, result) {
             if(obj.value > result.value) return obj;
             return result;
@@ -79,8 +82,16 @@ barGraph.displayXAxisDescription = function(group, dimension, maxLength, metadat
       var x_label = x_axis_label.append("text")
       .attr("class", "x_axis_label")
       .attr("y", dimension.chartBottomY + (maxLength*10))
-      .attr("x", dimension.chartTopX + (xDistance/2))
+      .attr("x", dimension.chartTopX - (metadata.x.length*4) + (xDistance/2))
       .text(metadata.x)
+      .style("font-weight", "bold")
+      .style("font-size", "19px");
+
+      var description = "Bar Graph: "  + metadata.x + " vs " + metadata.y;
+      x_axis_label.append("text").attr("class", "description")
+      .attr("y", dimension.chartBottomY + (maxLength*10) + 20)
+      .attr("x", dimension.chartTopX - (description.length*4) + (xDistance/2))
+      .text(description)
       .style("font-weight", "bold")
       .style("font-size", "19px");
 };
@@ -131,7 +142,7 @@ barGraph.draw = function(data, metadata) {
       var barLabelGroups = group.append("g").attr("class", "bar-label");
 
       var maxLength = this.maxLabelLength(data);
-      this.displayXAxisDescription(group, dimension, maxLength, metadata, xDistance);      
+      this.displayXAxisDescription(group, dimension, maxLength, metadata, xDistance);
       this.displayYAxisDescription(group, dimension, yDistance, metadata);
 
       var percentageGroups = group.append("g").attr("class", "percentage")
