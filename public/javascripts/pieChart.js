@@ -48,7 +48,8 @@ pieChart.draw = function(data , metadata, innerRadiusOfPieChart) {
         })
         .attr("text-anchor", "middle")
         .text(function(d, i) { return data[i].value; })
-        .style("font-weight", "bold")
+        .style("font-family","monospace")
+        .style("fill", "#3f3f3f")
         .style("font-size", "20px");
 
 
@@ -71,7 +72,6 @@ pieChart.draw = function(data , metadata, innerRadiusOfPieChart) {
     pieChartLabels.selectAll("text").data(colorDescriptions).enter().append("svg:text")
         .text(function(d) { return d.label; } ).attr("x",440)
         .attr("y",function(d, i) { return 14 + i*30; })
-        .style("font-weight", "bold")
         .style("font-size", "20px");
     
     var pieChartLabelsColors = svgContainer.append("g").attr("id","pie-chart-labels-colors");
