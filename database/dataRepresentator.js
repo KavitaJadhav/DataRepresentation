@@ -56,7 +56,7 @@ dataRepresentator.formatForMultiBarGraph = function(tableName , rows) {
     labelledValues.push(createRowForMultiBarChart(row[keys[0]], row[keys[1]], row[keys[2]], row[keys[3]]));
   });
 
-  var metadata = {'label1' : keys[0] , 'label2' : keys[1], 'label3' : keys[2], 'label4' : keys[3] };
+  var metadata = {'label1' : keys[0] , 'label2' : keys[1], 'label3' : keys[2], 'label4' : keys[3], 'tableName' : tableName };
   console.log(metadata);
 
   return {  'metadata' : metadata , 'actualdata': labelledValues  };
@@ -69,7 +69,7 @@ dataRepresentator.display = function(request, rows, response) {
     response.render(graphType, {data : this.formatForBubbleGraph(tableName, rows)});
 
   if(graphType == 'multiBarGraph')
-    response.render(graphType, {data : this.formatForMultiBarGraph(rows)});
+    response.render(graphType, {data : this.formatForMultiBarGraph(tableName ,rows)});
   
   response.render(graphType, {data : this.format(rows)});
 };

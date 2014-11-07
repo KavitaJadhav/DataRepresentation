@@ -150,6 +150,7 @@ multiBarGraph.displayValue = function(percentageGroups , data , xDistance , char
 
 multiBarGraph.drawIndex = function(group , metadata , chartBottomX , chartTopY){
       var keys = Object.keys(metadata).slice(1);
+      keys = keys.slice(0 , keys.length-1);
       var labels = group.append("g").attr("id","labels");
       labels.selectAll("text").data(keys).enter().append("svg:text")
             .text(function(d , i) { return metadata[d]; } )
@@ -166,6 +167,20 @@ multiBarGraph.drawIndex = function(group , metadata , chartBottomX , chartTopY){
             .attr("width", 25)
             .attr("height", 15)
             .style("fill" , function(d) { return d; });
+}
+
+multiBarGraph.displayTableInfo = function(group, metadata ,dimension){
+      var descriptionText = metadata.tableName + " information for " + metadata.label2 +" , " + metadata.label3
+            +" , " + metadata.label4 + " with " + metadata.label1;
+            
+      var graphDescription = group.append("g").attr("class", "graph_description");
+      var description = graphDescription.append("text")
+      .attr("class", "graph_description")
+      .attr("y", dimension.chartTopY - 50)
+      .attr("x", dimension.chartTopX + 100)
+      .text(descriptionText)
+      .style("font-weight", "bold")
+      .style("font-size", "19px");
 }
 
 multiBarGraph.draw = function(data, metadata) {
@@ -197,6 +212,8 @@ multiBarGraph.draw = function(data, metadata) {
       var maxLength = this.maxLabelLength(data);
       this.displayXAxisDescription(group, dimension, maxLength, metadata, xDistance);      
       this.displayYAxisDescription(group, dimension, yDistance, metadata);
+
+      this.displayTableInfo(group , metadata , dimension);
 
       var percentageGroups = group.append("g").attr("class", "percentage")
       this.displayValue(percentageGroups , data , xDistance , dimension.chartBottomY ,yScale, dimension.chartTopX);
