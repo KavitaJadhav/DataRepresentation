@@ -30,6 +30,7 @@ app.post('/pieChart', handler.resultSet);
 app.post('/donutGraph', handler.resultSet);
 
 app.post('/bubbleGraph', handler.bubbleGraphResultSet);
+app.post('/multiBarGraph', handler.multiBarGraphResultSet);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

@@ -53,3 +53,18 @@ databaseHandler.fetchDataAndDisplayForBubbleChart = function(request, response, 
     response.end();
   });
 };
+
+databaseHandler.fetchDataAndDisplayForMultiBarChart = function(request, response, con, dataRepresentator){
+  var query = "SELECT " + request.body.lable1 + " , " + request.body.lable2 + " , "
+  + request.body.lable3 + " , " + request.body.lable4 + " FROM " + request.body.tableName + ";";
+  console.log(query);
+  return con.connection.query(query, function(err, rows, fields) {
+    if (err) 
+        throw err;
+    dataRepresentator.display(request, rows, response);
+    response.end();
+  });
+};
+
+
+

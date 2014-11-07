@@ -11,6 +11,9 @@ var handler = {
     },
 	bubbleGraphResultSet : function(req, res) {
 		databaseHandler.fetchDataAndDisplayForBubbleChart(req, res, con, dataRepresentator);
+	},
+	multiBarGraphResultSet : function(req, res) {
+		databaseHandler.fetchDataAndDisplayForMultiBarChart(req, res, con, dataRepresentator);
 	}
 };
 
