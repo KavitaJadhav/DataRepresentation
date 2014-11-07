@@ -88,8 +88,8 @@ h1{
 	margin-left: 110px;
 	box-shadow: 10px 10px 15px #888888;
 	border: solid;
-	border-color: #eee;
 	border-radius: 15px;
+	border-color: lightgray;
 }
 .loginbubble{
 	padding: 20px;
