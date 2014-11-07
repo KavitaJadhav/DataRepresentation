@@ -73,9 +73,18 @@ h1{
 	padding-left: 210px;
 	font-size: 1.5em;
 }
+.note{
+	background-color: #eee;
+	height: 30px;
+	width: 130px;
+	padding: 8px;
+	margin-left: 120px;
+	font-size: 1em;
+	float: center;
+}
 .submit{
 	padding: 20px;
-	margin-left: 200px;
+	margin-left: 210px;
 }
 .inputList{
 	font-size: 1.5em;
@@ -149,7 +158,6 @@ ul li ul {
   height: 100px;
   z-index: 1;
   visibility: hidden;
-  margin-top: 10px;
   list-style: none; 
 }
 ul li ul li { 
