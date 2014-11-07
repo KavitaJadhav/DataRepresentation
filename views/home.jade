@@ -5,7 +5,7 @@ html
     script(type='text/javascript', src='/javascripts/d3.v3.min.js', charset='utf-8')
     script.
       function showHide(shID) {
-      var graphs = ['barGraph', 'pieChart', 'donutGraph','bubbleGraph'];
+      var graphs = ['barGraph', 'pieChart', 'donutGraph','bubbleGraph','multiBarGraph'];
       if (document.getElementById(shID)) {
       if (document.getElementById(shID).style.display!='block') {
       var allOtherGraphs = graphs.filter(
@@ -37,6 +37,10 @@ html
           li
             a#bubbleGraph-show.showLink(onclick='showHide(\'bubbleGraph\');')
               | Bubble Graph
+          br
+          li
+            a#multiBarGraph-show.showLink(onclick='showHide(\'multiBarGraph\');')
+              | Multi Bar Graph
     #pieChart.more
       .login
         form(method='post', action='/pieChart', name='pieChartInputForm')
@@ -80,7 +84,7 @@ html
           p.submit
             input(type='submit', value='Submit')
     #bubbleGraph.more
-      .login
+      .loginbubble
         form(method='post', action='/bubbleGraph', name='bubbleGraphInputForm')
           p.inputBoxName
             b Bubble Graph
@@ -97,7 +101,24 @@ html
               input(type='text', name='circleR', placeholder='comparison column')
           p.submit
             input(type='submit', value='Submit')
-
+    #multiBarGraph.more
+      .loginbubble
+        form(method='post', action='/multiBarGraph', name='multiBarGraphInputForm')
+          p.inputBoxName
+            b Multi Bar Graph
+          .inputList
+            p
+              input(type='text', name='tableName', placeholder='table name')
+            p
+              input(type='text', name='lable1', placeholder='description column')
+            p
+              input(type='text', name='lable2', placeholder='comparison column')
+            p
+              input(type='text', name='lable3', placeholder='comparison column')
+            p
+              input(type='text', name='lable4', placeholder='comparison column')
+          p.submit
+            input(type='submit', value='Submit')
     .listname
       p.note
         b Tables Available
