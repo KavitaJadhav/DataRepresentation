@@ -56,8 +56,10 @@ dataRepresentator.formatForMultiBarGraph = function(rows) {
     labelledValues.push(createRowForMultiBarChart(row[keys[0]], row[keys[1]], row[keys[2]], row[keys[3]]));
   });
 
-  return {  'metadata' : {'label1' : keys[0] , 'label2' : keys[1], 'label3' : keys[2], 'label4' : keys[3] }, 
-            'actualdata': labelledValues  };
+  var metadata = {'label1' : keys[0] , 'label2' : keys[1], 'label3' : keys[2], 'label4' : keys[3] };
+  console.log(metadata);
+
+  return {  'metadata' : metadata , 'actualdata': labelledValues  };
 };
 
 dataRepresentator.display = function(request, rows, response) {  

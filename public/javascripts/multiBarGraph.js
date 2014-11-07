@@ -105,7 +105,7 @@ multiBarGraph.displayXAxisDescription = function(group, dimension, maxLength, me
       .attr("class", "x_axis_label")
       .attr("y", dimension.chartBottomY + (maxLength*25))
       .attr("x", dimension.chartTopX + (xDistance/2))
-      .text(metadata.lable1)
+      .text(metadata.label1)
       .style("font-weight", "bold")
       .style("font-size", "19px");
 };
@@ -150,7 +150,6 @@ multiBarGraph.displayValue = function(percentageGroups , data , xDistance , char
 
 multiBarGraph.drawIndex = function(group , metadata , chartBottomX , chartTopY){
       var keys = Object.keys(metadata).slice(1);
-
       var labels = group.append("g").attr("id","labels");
       labels.selectAll("text").data(keys).enter().append("svg:text")
             .text(function(d , i) { return metadata[d]; } )
