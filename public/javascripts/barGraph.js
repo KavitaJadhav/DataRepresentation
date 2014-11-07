@@ -1,9 +1,6 @@
 var barGraph = {};
 
 barGraph.getMaxValueOnYAxis = function(data) {
-      var values = data.map(function(element) {
-            return element.value;
-      });
       var maxValue = data.reduce(function(obj, result) {
             if(obj.value > result.value) return obj;
             return result;
@@ -42,13 +39,13 @@ barGraph.drawXAxis = function(lineGroup, dimension) {
       .attr("stroke", "black");
 };
 
-barGraph.drawLabelsOnXAxis = function(xLabelsGroups, data, dimension, xDistance) {
+barGraph.drawLabelsOnXAxis = function(xLabelsGroups, data, dimension, xDistance, deviation) {
       xLabelsGroups.selectAll("text").data(data).enter().append("svg:text")
       .text(function(d) { return d.label;})
       .attr("class", "tick-label")
       .style("text-anchor" ,"end")
       .attr("transform", function (d, i)  {
-            return "translate(" + (dimension.chartTopX + ((xDistance/(data.length))*(i+0.5) + 20) + "," + ((dimension.chartBottomY) + 20)+") rotate(270)") })
+            return "translate(" + (dimension.chartTopX + ((xDistance/(data.length))*(i+0.5) + deviation) + "," + ((dimension.chartBottomY) + 20)+") rotate(270)") });
 };
 
 barGraph.drawLabelsOnYAxis = function(yLabelsGroups, dimension, maxValue, numOfTicks, yDistance) {
@@ -77,22 +74,20 @@ barGraph.drawBarLabels = function(barLabelGroups, data, dimension, yScale, xDist
       .text(function(d) { return d.value});
 };
 
-barGraph.displayXAxisDescription = function(group, dimension, maxLength, metadata, xDistance) {
+barGraph.displayXAxisDescription = function(group, dimension, maxLength, xDistance, description) {
       var x_axis_label = group.append("g").attr("class", "x_axis_label");
       var x_label = x_axis_label.append("text")
       .attr("class", "x_axis_label")
-      .attr("y", dimension.chartBottomY + (maxLength*10))
-      .attr("x", dimension.chartTopX - (metadata.x.length*4) + (xDistance/2))
-      .text(metadata.x)
+      .attr("y", dimension.chartBottomY + (maxLength*10) + 20)
+      .attr("x", dimension.chartTopX - (description.length*4) + (xDistance/2))
+      .text(description)
       .style("font-weight", "bold")
       .style("font-size", "19px");
 };
-
-barGraph.displayTableInfo = function( group , metadata , dimension){
-      var description = "Bar Graph: "  + metadata.x + " vs " + metadata.y;
-
+      
+barGraph.displayTableInfo = function( group , metadata , dimension, description){
       var graphDescription = group.append("g").attr("class", "graph_description");
-      var description = graphDescription.append("text").
+      graphDescription.append("text").
             attr("class", "graph_description")
             .attr("y", dimension.chartTopY - 50)
             .attr("x", dimension.chartTopX + 100)
@@ -135,11 +130,11 @@ barGraph.draw = function(data, metadata) {
       this.drawXAxis(lineGroup, dimension);      
       
       var xLabelsGroups = group.append("g").attr("class", "x-labels")
-      this.drawLabelsOnXAxis(xLabelsGroups, data, dimension, xDistance);
+      this.drawLabelsOnXAxis(xLabelsGroups, data, dimension, xDistance, 20);
 
       var yLabelsGroups = group.append("g").attr("class", "y-labels");
       this.drawLabelsOnYAxis(yLabelsGroups, dimension, maxValue, numOfTicks, yDistance);
-      
+
       var yScale = d3.scale.linear().domain([0, maxValue]).range([0, yDistance]);
       var barGroup = group.append("g").attr("class", "bars");
       this.drawBars(barGroup, data, dimension, yScale, xDistance);
@@ -147,10 +142,11 @@ barGraph.draw = function(data, metadata) {
       var barLabelGroups = group.append("g").attr("class", "bar-label");
 
       var maxLength = this.maxLabelLength(data);
-      this.displayXAxisDescription(group, dimension, maxLength, metadata, xDistance);
+      this.displayXAxisDescription(group, dimension, maxLength, xDistance, metadata.x);
       this.displayYAxisDescription(group, dimension, yDistance, metadata);
 
-      this.displayTableInfo(group , metadata ,dimension); 
+      var description = "Bar Graph: "  + metadata.x + " vs " + metadata.y;
+      this.displayTableInfo(group , metadata ,dimension, description);
 
       var percentageGroups = group.append("g").attr("class", "percentage")
       this.displayValue(percentageGroups , data , xDistance , dimension.chartBottomY ,yScale, dimension.chartTopX);
