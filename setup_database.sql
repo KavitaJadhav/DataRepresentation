@@ -27,9 +27,9 @@ select * from bookcatalog;
 
 -- student table --
 
-drop table IF EXISTS student;
+drop table IF EXISTS Student;
 
-create table student
+create table Student
 (
 	student_id int NOT NULL PRIMARY KEY ,
 	name varchar(50),
@@ -51,12 +51,12 @@ insert into student values(1008 , 'Mr. Austin' , 75 , 73 , 64 ,76 , 72);
 insert into student values(1009 , 'Mr. john' , 51 , 49 , 40 , 66 , 51);
 insert into student values(1010 , 'Ms. Anna' , 68 , 74 , 88 ,86 , 79);
 
-select * from student;
+select * from Student;
 
 --
 drop table IF EXISTS Export;
 
-create table export
+create table Export
 (
 	year int,
 	electronics int,
