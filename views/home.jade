@@ -5,7 +5,7 @@ html
     script(type='text/javascript', src='/javascripts/d3.v3.min.js', charset='utf-8')
     script.
       function showHide(shID) {
-      var graphs = ['barGraph', 'pieChart', 'donutGraph','bubbleGraph','multiBarGraph'];
+      var graphs = ['barGraph', 'pieChart', 'donutGraph','bubbleGraph','multiBarGraph', 'lineGraph'];
       if (document.getElementById(shID)) {
       if (document.getElementById(shID).style.display!='block') {
       var allOtherGraphs = graphs.filter(
@@ -42,6 +42,10 @@ html
           li
             a#multiBarGraph-show.showLink(onclick='showHide(\'multiBarGraph\');')
               | Multi Bar Graph
+          br
+          li
+            a#lineGraph-show.showLink(onclick='showHide(\'lineGraph\');')
+              | Line Chart
     #help1.help
       p Please select a graph type. The tables available in the database are listed on the right.
     #pieChart.more
@@ -120,6 +124,20 @@ html
               input(type='text', name='lable3', placeholder='comparison column')
             p
               input(type='text', name='lable4', placeholder='comparison column')
+          p.submit
+            input(type='submit', value='Submit')
+    #lineGraph.more
+      .login
+        form(method='post', action='/lineGraph', name='LineGraphInputForm')
+          p.inputBoxName
+            b Line Graph
+          .inputList
+            p
+              input(type='text', name='tableName', placeholder='table name')
+            p
+              input(type='text', name='xAxis', placeholder='x axis')
+            p
+              input(type='text', name='yAxis', placeholder='y axis')
           p.submit
             input(type='submit', value='Submit')
     .listname

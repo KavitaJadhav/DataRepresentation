@@ -1,9 +1,6 @@
 var barGraph = {};
 
 barGraph.getMaxValueOnYAxis = function(data) {
-      var values = data.map(function(element) {
-            return element.value;
-      });
       var maxValue = data.reduce(function(obj, result) {
             if(obj.value > result.value) return obj;
             return result;
@@ -22,9 +19,10 @@ barGraph.getChartDimension = function(data, metadata, maxValue) {
 barGraph.maxLabelLength = function(data) {
       return data.map(function(obj) { return obj.label; })
             .reduce(function(prev, curr) { return prev.length>curr.length?prev:curr; }).length;
-}
+};
 
-barGraph.drawYAxis = function(lineGroup, dimension) {
+//drawAxis function
+barGraph.drawXAxis = function(lineGroup, dimension) {
       lineGroup.append("line")
       .attr("x1", dimension.chartTopX)
       .attr("y1", dimension.chartBottomY)
@@ -33,7 +31,7 @@ barGraph.drawYAxis = function(lineGroup, dimension) {
       .attr("stroke","black");
 };
 
-barGraph.drawXAxis = function(lineGroup, dimension) {
+barGraph.drawYAxis = function(lineGroup, dimension) {
       lineGroup.append("line")
       .attr("x1", dimension.chartTopX)
       .attr("y1", dimension.chartBottomY)
@@ -42,23 +40,27 @@ barGraph.drawXAxis = function(lineGroup, dimension) {
       .attr("stroke", "black");
 };
 
-barGraph.drawLabelsOnXAxis = function(xLabelsGroups, data, dimension, xDistance) {
+barGraph.drawLabelsOnXAxis = function(xLabelsGroups, data, dimension, xDistance, deviation) {
       xLabelsGroups.selectAll("text").data(data).enter().append("svg:text")
       .text(function(d) { return d.label;})
       .attr("class", "tick-label")
       .style("text-anchor" ,"end")
       .attr("transform", function (d, i)  {
-            return "translate(" + (dimension.chartTopX + ((xDistance/(data.length))*(i+0.5) + 20) + "," + ((dimension.chartBottomY) + 20)+") rotate(270)") })
+            return "translate(" + (dimension.chartTopX + ((xDistance/(data.length))*(i+0.5) + deviation) + "," + ((dimension.chartBottomY) + 20)+") rotate(270)") });
 };
 
-barGraph.drawLabelsOnYAxis = function(yLabelsGroups, dimension, maxValue, numOfTicks, yDistance) {
-      var interval = [];
+barGraph.getValuesOnYAxis = function(maxValue, numOfTicks) {
+      var yAxisLabels = [];
       for(i = 0; i < numOfTicks; i++) 
-            interval.push((maxValue/(numOfTicks-1))*i);
-      yLabelsGroups.selectAll("text").data(interval).enter().append("svg:text")
+            yAxisLabels.push((maxValue/(numOfTicks-1))*i);
+      return yAxisLabels;
+};
+
+barGraph.drawLabelsOnYAxis = function(yLabelsGroups, dimension, yAxisLabels, maxValue, maxValue, yScale) {
+      yLabelsGroups.selectAll("text").data(yAxisLabels).enter().append("svg:text")
       .text(function(d) {return d;})
       .attr("x", dimension.chartTopX - maxValue.toString().length * 10)
-      .attr("y", function(d, i) { return dimension.chartBottomY - (yDistance/(numOfTicks - 1)*i); });
+      .attr("y", function(d, i) { return dimension.chartBottomY - yScale(d); });
 };
 
 barGraph.drawBars = function(barGroup, data, dimension, yScale, xDistance) {
@@ -77,22 +79,20 @@ barGraph.drawBarLabels = function(barLabelGroups, data, dimension, yScale, xDist
       .text(function(d) { return d.value});
 };
 
-barGraph.displayXAxisDescription = function(group, dimension, maxLength, metadata, xDistance) {
+barGraph.displayXAxisDescription = function(group, dimension, maxLength, xDistance, description) {
       var x_axis_label = group.append("g").attr("class", "x_axis_label");
       var x_label = x_axis_label.append("text")
       .attr("class", "x_axis_label")
-      .attr("y", dimension.chartBottomY + (maxLength*10))
-      .attr("x", dimension.chartTopX - (metadata.x.length*4) + (xDistance/2))
-      .text(metadata.x)
+      .attr("y", dimension.chartBottomY + (maxLength*10) + 20)
+      .attr("x", dimension.chartTopX - (description.length*4) + (xDistance/2))
+      .text(description)
       .style("font-weight", "bold")
       .style("font-size", "19px");
 };
-
-barGraph.displayTableInfo = function( group , metadata , dimension){
-      var description = "Bar Graph: "  + metadata.x + " vs " + metadata.y;
-
+      
+barGraph.displayTableInfo = function( group , metadata , dimension, description){
       var graphDescription = group.append("g").attr("class", "graph_description");
-      var description = graphDescription.append("text").
+      graphDescription.append("text").
             attr("class", "graph_description")
             .attr("y", dimension.chartTopY - 50)
             .attr("x", dimension.chartTopX + 100)
@@ -110,7 +110,7 @@ barGraph.displayYAxisDescription = function(group, dimension, yDistance, metadat
       .text(metadata.y)
       .style("font-weight", "bold")
       .style("font-size", "19px");  
-} 
+};
 
 barGraph.displayValue = function(percentageGroups , data , xDistance , chartBottomY , yScale, chartTopX){
       percentageGroups.selectAll("text").data(data).enter().append("svg:text")
@@ -118,7 +118,17 @@ barGraph.displayValue = function(percentageGroups , data , xDistance , chartBott
             .attr("class", "tick-label")
             .attr("y", function(d) { return chartBottomY - yScale(d.value) - 10})
             .attr("x", function(d, i) { return chartTopX + ((xDistance/(data.length))*(i+0.5)); });
-}
+};
+
+barGraph.drawTicks = function(tickLineGroup, yAxisLabels, yScale, dimension) {
+      tickLineGroup.selectAll("line").data(yAxisLabels).enter().append("line")
+      .attr("x1", dimension.chartTopX)
+      .attr("y1", function(d, i) { return dimension.chartBottomY - yScale(d); })
+      .attr("x2", dimension.chartBottomX)
+      .attr("y2", function(d, i) { return dimension.chartBottomY - yScale(d); })
+      .attr("stroke", "black")
+      .attr("stroke-opacity", 0.09);
+};
 
 barGraph.draw = function(data, metadata) {
       var svgContainer = d3.select("body").append("svg").attr("width",1100).attr("height",1100); 
@@ -130,27 +140,33 @@ barGraph.draw = function(data, metadata) {
       var xDistance = dimension.chartBottomX - dimension.chartTopX;
       var group = svgContainer.append("g");
 
+      var yScale = d3.scale.linear().domain([0, maxValue]).range([0, yDistance]);
+
       var lineGroup = group.append("g").attr("class", "line");
       this.drawYAxis(lineGroup, dimension);
       this.drawXAxis(lineGroup, dimension);      
       
       var xLabelsGroups = group.append("g").attr("class", "x-labels")
-      this.drawLabelsOnXAxis(xLabelsGroups, data, dimension, xDistance);
+      this.drawLabelsOnXAxis(xLabelsGroups, data, dimension, xDistance, 20);
 
       var yLabelsGroups = group.append("g").attr("class", "y-labels");
-      this.drawLabelsOnYAxis(yLabelsGroups, dimension, maxValue, numOfTicks, yDistance);
+      var yAxisLabels = this.getValuesOnYAxis(maxValue, numOfTicks);
+      this.drawLabelsOnYAxis(yLabelsGroups, dimension, yAxisLabels, maxValue, maxValue, yScale);
       
-      var yScale = d3.scale.linear().domain([0, maxValue]).range([0, yDistance]);
+      var tickLineGroup = group.append("g").attr("class", "tick-lines")
+      this.drawTicks(tickLineGroup, yAxisLabels, yScale, dimension);
+
       var barGroup = group.append("g").attr("class", "bars");
       this.drawBars(barGroup, data, dimension, yScale, xDistance);
 
       var barLabelGroups = group.append("g").attr("class", "bar-label");
 
       var maxLength = this.maxLabelLength(data);
-      this.displayXAxisDescription(group, dimension, maxLength, metadata, xDistance);
+      this.displayXAxisDescription(group, dimension, maxLength, xDistance, metadata.x);
       this.displayYAxisDescription(group, dimension, yDistance, metadata);
 
-      this.displayTableInfo(group , metadata ,dimension); 
+      var description = "Bar Graph: "  + metadata.x + " vs " + metadata.y;
+      this.displayTableInfo(group , metadata ,dimension, description);
 
       var percentageGroups = group.append("g").attr("class", "percentage")
       this.displayValue(percentageGroups , data , xDistance , dimension.chartBottomY ,yScale, dimension.chartTopX);

@@ -28,6 +28,7 @@ app.get('/', handler.home);
 app.post('/barGraph', handler.resultSet);
 app.post('/pieChart', handler.resultSet);
 app.post('/donutGraph', handler.resultSet);
+app.post('/lineGraph', handler.resultSet);
 
 app.post('/bubbleGraph', handler.bubbleGraphResultSet);
 app.post('/multiBarGraph', handler.multiBarGraphResultSet);
