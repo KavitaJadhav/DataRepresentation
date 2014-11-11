@@ -7,6 +7,7 @@ barGraph.getMaxValueOnYAxis = function(data) {
       }).value;
       return (maxValue%20) > 0 ? maxValue + (20-(maxValue%20)) : maxValue;
 };
+
 barGraph.getChartDimension = function(data, metadata, maxValue) {
       var dimension = {};
       dimension.chartTopX = metadata['y'].length * 10 + 25 + (maxValue.toString().length * 10);
@@ -120,7 +121,7 @@ barGraph.displayValue = function(percentageGroups , data , xDistance , chartBott
             .attr("x", function(d, i) { return chartTopX + ((xDistance/(data.length))*(i+0.5)); });
 };
 
-barGraph.drawTicks = function(tickLineGroup, yAxisLabels, yScale, dimension) {
+barGraph.drawXTicks = function(tickLineGroup, yAxisLabels, yScale, dimension) {
       tickLineGroup.selectAll("line").data(yAxisLabels).enter().append("line")
       .attr("x1", dimension.chartTopX)
       .attr("y1", function(d, i) { return dimension.chartBottomY - yScale(d); })
@@ -128,6 +129,16 @@ barGraph.drawTicks = function(tickLineGroup, yAxisLabels, yScale, dimension) {
       .attr("y2", function(d, i) { return dimension.chartBottomY - yScale(d); })
       .attr("stroke", "black")
       .attr("stroke-opacity", 0.09);
+};
+
+barGraph.drawYTicks = function(tickLineGroup, data, dimension, xDistance) {
+      tickLineGroup.selectAll("line").data(data).enter().append("line")
+      .attr("x1", function(d, i) { return dimension.chartTopX + ((xDistance/(data.length))*(i+0.5)) + 20; })
+      .attr("y1", dimension.chartBottomY)
+      .attr("x2", function(d, i) { return dimension.chartTopX + ((xDistance/(data.length))*(i+0.5)) + 20; })
+      .attr("y2", dimension.chartBottomY + 10)
+      .attr("stroke", "black")
+      .attr("stroke-opacity", 1);
 };
 
 barGraph.draw = function(data, metadata) {
@@ -153,8 +164,11 @@ barGraph.draw = function(data, metadata) {
       var yAxisLabels = this.getValuesOnYAxis(maxValue, numOfTicks);
       this.drawLabelsOnYAxis(yLabelsGroups, dimension, yAxisLabels, maxValue, maxValue, yScale);
       
-      var tickLineGroup = group.append("g").attr("class", "tick-lines")
-      this.drawTicks(tickLineGroup, yAxisLabels, yScale, dimension);
+      var xTickLineGroup = group.append("g").attr("class", "x-tick-lines");
+      var yTickLineGroup = group.append("g").attr("class", "y-tick-lines");
+
+      this.drawXTicks(xTickLineGroup, yAxisLabels, yScale, dimension);
+      this.drawYTicks(yTickLineGroup, data, dimension, xDistance);
 
       var barGroup = group.append("g").attr("class", "bars");
       this.drawBars(barGroup, data, dimension, yScale, xDistance);
