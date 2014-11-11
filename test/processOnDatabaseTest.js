@@ -1,11 +1,11 @@
-var databaseHandler = require('../processOnDatabase.js').databaseHandler;
+var databaseHandler = require('../database/processOnDatabase.js').databaseHandler;
 var assert = require('assert');
 var test = {};
 exports.test = test;
 
 var request = {
 	body: {
-		tableName: 'students',
+		tableName: 'student',
 		xAxis: 'name',
 		yAxis: 'percentage'
 	}
@@ -43,7 +43,7 @@ var getStubDataRepresentator = function() {
 };
 
 test.databaseHandler_forms_correct_query_considering_the_user_request = function() {
-	var expected = "SELECT name,percentage FROM students";
+	var expected = "SELECT name,percentage FROM student;";
 
 	var actual = databaseHandler.formQuery(request.body);
 

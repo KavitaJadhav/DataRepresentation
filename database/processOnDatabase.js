@@ -20,7 +20,6 @@ databaseHandler.getColumnsForTablesAndRenderHomePage = function(table_names, tab
       columns = rows.map(function(element) { return element['Field']; });
       tableWithColumns.push({"table_name": table_name, "columns": columns});
       if(tableWithColumns.length == table_names.length){
-        console.log(tableWithColumns);
         response.render('home', {'tableWithColumns':tableWithColumns});        
       }
     });
@@ -57,7 +56,6 @@ databaseHandler.fetchDataAndDisplayForBubbleChart = function(request, response, 
 databaseHandler.fetchDataAndDisplayForMultiBarChart = function(request, response, con, dataRepresentator){
   var query = "SELECT " + request.body.lable1 + " , " + request.body.lable2 + " , "
   + request.body.lable3 + " , " + request.body.lable4 + " FROM " + request.body.tableName + ";";
-  console.log(query);
   return con.connection.query(query, function(err, rows, fields) {
     if (err) 
         throw err;

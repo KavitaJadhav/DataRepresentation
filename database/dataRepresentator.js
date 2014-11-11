@@ -57,7 +57,6 @@ dataRepresentator.formatForMultiBarGraph = function(tableName , rows) {
   });
 
   var metadata = {'label1' : keys[0] , 'label2' : keys[1], 'label3' : keys[2], 'label4' : keys[3], 'tableName' : tableName };
-  console.log(metadata);
 
   return {  'metadata' : metadata , 'actualdata': labelledValues  };
 };

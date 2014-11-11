@@ -1,4 +1,4 @@
-var dataRepresentator = require('../dataRepresentator.js').dataRepresentator;
+var dataRepresentator = require('../database/dataRepresentator.js').dataRepresentator;
 var assert = require('assert');
 var test = {};
 exports.test = test;
@@ -48,7 +48,6 @@ var createRequest = function(givenPath) {
 
 test.format_gives_data_in_specific_format = function(){
 	var actual = dataRepresentator.format(rows);
-  
 	assert.deepEqual(actual, expected.data);
 };
 
