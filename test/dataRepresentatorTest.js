@@ -12,8 +12,8 @@ var expected = {
   data: {
     metadata: { x: 'title', y: 'price' },
     actualdata:[ 
-      { label: 'book2', value: 500 },
-      { label: 'book1', value: 100 } 
+      { label: 'book1', value: 100 }, 
+      { label: 'book2', value: 500 }
     ]
   }
 };
@@ -40,6 +40,7 @@ var tearDown = function() {
 
 var createRequest = function(givenPath) {
   return {
+    body: { tableName: 'student', xAxis: 'student_id', yAxis: 'maths' },
     route : {
       path : givenPath
     }
@@ -68,7 +69,7 @@ test.display_repressents_formatted_data_in_pie_chart = function(){
   dataRepresentator.display(request, rows, response);
 
   assert.equal(response.routeName, 'pieChart');
-  assert.deepEqual(response.input, {data: expected.data.actualdata});
+  assert.deepEqual(response.input, {data: expected.data});
 
   tearDown();
 };
