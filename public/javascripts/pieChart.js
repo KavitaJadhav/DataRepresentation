@@ -62,7 +62,10 @@ pieChart.draw = function(data, metadata, innerRadiusOfPieChart) {
                 .transition()
                 .duration(500)
                 .attr("transform", function(d) {
-                    var c = dd2.centroid(d);
+                    var temp = dd.innerRadius();
+                    dd.innerRadius(0);
+                    var c = dd.centroid(d);
+                    dd.innerRadius(temp);
                     return "translate(" + c[0] * 2.3 + "," + c[1] * 2.3 + ")";
                 })
 
@@ -83,7 +86,10 @@ pieChart.draw = function(data, metadata, innerRadiusOfPieChart) {
                 .transition()
                 .duration(500)
                 .attr("transform", function(d) {
-                    var c = dd2.centroid(d);
+                    var temp = dd.innerRadius();
+                    dd.innerRadius(0);
+                    var c = dd.centroid(d);
+                    dd.innerRadius(temp);
                     return "translate(" + c[0] * 2.1 + "," + c[1] * 2.1 + ")";
                 })
 
@@ -99,7 +105,10 @@ pieChart.draw = function(data, metadata, innerRadiusOfPieChart) {
 
     arcs.append("svg:text")
         .attr("transform", function(d) {
-            var c = dd2.centroid(d);
+            var temp = dd.innerRadius();
+            dd.innerRadius(0);
+            var c = dd.centroid(d);
+            dd.innerRadius(temp);
             return "translate(" + c[0] * 2.1 + "," + c[1] * 2.1 + ")";
         })
         .attr("text-anchor", "middle")
