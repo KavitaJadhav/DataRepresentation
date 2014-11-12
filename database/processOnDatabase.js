@@ -63,6 +63,3 @@ databaseHandler.fetchDataAndDisplayForMultiBarChart = function(request, response
     response.end();
   });
 };
-
-
-
