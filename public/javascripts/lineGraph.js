@@ -34,6 +34,16 @@ lineGraph.drawPath = function(svgContainer, data, dimension, yScale, xDistance) 
 	.attr("r", 3);
 };
 
+lineGraph.drawXTicks = function(tickLineGroup, data, dimension, xDistance) {
+      tickLineGroup.selectAll("line").data(data).enter().append("line")
+      .attr("x1", function(d, i) { return dimension.chartTopX + ((xDistance/(data.length))*(i+0.5)); })
+      .attr("y1", dimension.chartBottomY)
+      .attr("x2", function(d, i) { return dimension.chartTopX + ((xDistance/(data.length))*(i+0.5)); })
+      .attr("y2", dimension.chartBottomY + 10)
+      .attr("stroke", "black")
+      .attr("stroke-opacity", 1);
+};
+
 lineGraph.draw = function(data, metadata) {
 	var svgContainer = d3.select("body").append("svg").attr("width",1100).attr("height",1100); 
 	var maxValue = barGraph.getMaxValueOnYAxis(data);
@@ -50,12 +60,17 @@ lineGraph.draw = function(data, metadata) {
 	barGraph.drawYAxis(lineGroup, dimension);
 	barGraph.drawXAxis(lineGroup, dimension);  
 
-	var xLabelsGroups = group.append("g").attr("class", "x-labels")
+	var xLabelsGroups = group.append("g").attr("class", "x-labels");
 	barGraph.drawLabelsOnXAxis(xLabelsGroups, data, dimension, xDistance, 0);
-
+	
 	var yLabelsGroups = group.append("g").attr("class", "y-labels");
     var yAxisLabels = barGraph.getValuesOnYAxis(maxValue, numOfTicks);
     barGraph.drawLabelsOnYAxis(yLabelsGroups, dimension, yAxisLabels, maxValue, maxValue, yScale);
+    var xTickLineGroup = group.append("g").attr("class", "x-tick-lines");
+    this.drawXTicks(xTickLineGroup, data, dimension, xDistance);
+
+    var yTickLineGroup = group.append("g").attr("class", "y-tick-lines");
+    barGraph.drawYTicks(yTickLineGroup, yAxisLabels, yScale, dimension);
 	
 	this.drawPath(group, data, dimension, yScale, xDistance);
 
