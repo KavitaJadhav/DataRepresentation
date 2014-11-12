@@ -39,6 +39,8 @@ pieChart.draw = function(data , metadata, innerRadiusOfPieChart) {
         colorDescriptions.push({"colorSelected": colorSelected, "label": data[i].label});
         return colorSelected; } )
         .attr("d", arc)
+        .style('stroke', 'white')
+        .style('stroke-width', 2);
 
     arcs.append("svg:text")
         .attr("transform", function(d) {
