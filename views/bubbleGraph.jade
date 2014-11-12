@@ -9,3 +9,5 @@ html
 		script(type='text/javascript', src="/javascripts/bubbleGraph.js")
 		script.
 			bubbleGraph.draw(!{JSON.stringify(data.actualdata)}, !{JSON.stringify(data.metadata)})
+		form(method='get', action='/', name='home')
+			input(type='submit', value='Back', class="backButton")

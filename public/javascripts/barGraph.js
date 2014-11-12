@@ -121,7 +121,7 @@ barGraph.displayValue = function(percentageGroups , data , xDistance , chartBott
             .attr("x", function(d, i) { return chartTopX + ((xDistance/(data.length))*(i+0.5)); });
 };
 
-barGraph.drawXTicks = function(tickLineGroup, yAxisLabels, yScale, dimension) {
+barGraph.drawYTicks = function(tickLineGroup, yAxisLabels, yScale, dimension) {
       tickLineGroup.selectAll("line").data(yAxisLabels).enter().append("line")
       .attr("x1", dimension.chartTopX)
       .attr("y1", function(d, i) { return dimension.chartBottomY - yScale(d); })
@@ -131,7 +131,7 @@ barGraph.drawXTicks = function(tickLineGroup, yAxisLabels, yScale, dimension) {
       .attr("stroke-opacity", 0.09);
 };
 
-barGraph.drawYTicks = function(tickLineGroup, data, dimension, xDistance) {
+barGraph.drawXTicks = function(tickLineGroup, data, dimension, xDistance) {
       tickLineGroup.selectAll("line").data(data).enter().append("line")
       .attr("x1", function(d, i) { return dimension.chartTopX + ((xDistance/(data.length))*(i+0.5)) + 20; })
       .attr("y1", dimension.chartBottomY)
@@ -167,8 +167,8 @@ barGraph.draw = function(data, metadata) {
       var xTickLineGroup = group.append("g").attr("class", "x-tick-lines");
       var yTickLineGroup = group.append("g").attr("class", "y-tick-lines");
 
-      this.drawXTicks(xTickLineGroup, yAxisLabels, yScale, dimension);
-      this.drawYTicks(yTickLineGroup, data, dimension, xDistance);
+      this.drawYTicks(xTickLineGroup, yAxisLabels, yScale, dimension);
+      this.drawXTicks(yTickLineGroup, data, dimension, xDistance);
 
       var barGroup = group.append("g").attr("class", "bars");
       this.drawBars(barGroup, data, dimension, yScale, xDistance);

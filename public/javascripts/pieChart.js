@@ -1,29 +1,29 @@
 var pieChart = {};
 
-pieChart.createContainer = function(data, width, height) {
+pieChart.createContainer = function(data, width, height, radius) {
     return d3.select("body")
         .append("svg:svg")
         .data([data])
         .attr("width", width)
         .attr("height", height)
         .append("svg:g")
-        .attr("transform", "translate(" + 300 + "," + 300 + ")") ;
+        .attr("transform", "translate(" + 1.5*radius + "," + 1.5*radius + ")") ;
 } 
 
 pieChart.draw = function(data , metadata, innerRadiusOfPieChart) {
     var width = 1100,
-    height = 650,
+    height = 1100,
     radius = 250,
     color = ["#C5AAF5","#FB7374","#A3CBF1","#79BFA1","#F5A352","#94B3C8", "#F9D08B","#B2AC4E","#64BD4F","#C09372"];
 
     var colorDescriptions = [];
  
-    var svgContainer = pieChart.createContainer(data, width, height);
+    var svgContainer = pieChart.createContainer(data, width, height, radius);
 
-    var arc = d3.svg.arc()
-        .outerRadius(radius)
-        .innerRadius(innerRadiusOfPieChart);
- 
+   var arc = d3.svg.arc()
+            .outerRadius(radius)
+            .innerRadius(innerRadiusOfPieChart); 
+
     var pie = d3.layout.pie()
         .value(function(d) { return d.value; });
 
@@ -33,7 +33,7 @@ pieChart.draw = function(data , metadata, innerRadiusOfPieChart) {
         .append("svg:g")
         .attr("class", "slice");
 
-    arcs.append("svg:path")
+        arcs.append("svg:path")
         .attr("fill", function(d, i) { 
         var colorSelected =  color[i];
         colorDescriptions.push({"colorSelected": colorSelected, "label": data[i].label});
@@ -43,20 +43,19 @@ pieChart.draw = function(data , metadata, innerRadiusOfPieChart) {
         .style('stroke-width', 2);
 
     arcs.append("svg:text")
-        .attr("transform", function(d) {
-        d.innerRadius = 0;
-        d.outerRadius = radius;
-            return "translate(" + arc.centroid(d) + ")";
-        })
-        .attr("text-anchor", "middle")
-        .text(function(d, i) { return data[i].value; })
-        .style("font-family","monospace")
-        .style("fill", "#3f3f3f")
-        .style("font-size", "20px");
-
+      .attr("transform", function(d) { 
+        console.log(radius);
+        d.outerRadius = radius + 50; 
+        d.innerRadius = radius + 45; 
+        return "translate(" + arc.centroid(d) + ")";
+      })
+      .attr("text-anchor", "middle")
+      .style("font-family","monospace")
+      .style("fill", "#3f3f3f")
+      .style("font-size", "20px")
+      .text(function(d, i) { return data[i].value; });
 
     var descriptionText = innerRadiusOfPieChart >0 ? "Donut Chart of " : "Pie Chart of ";
-
 
     descriptionText = descriptionText + metadata.x + " with " + metadata.y;
 
