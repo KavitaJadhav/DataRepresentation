@@ -31,7 +31,8 @@ lineGraph.drawPath = function(svgContainer, data, dimension, yScale, xDistance) 
 		return dimension.chartTopX + ((xDistance/(data.length))*(i+0.5));
 	})
 	.attr("cy", function(d, i) { return d; })
-	.attr("r", 3);
+	.attr("r", 3)
+	.style("fill", "red");
 };
 
 lineGraph.drawXTicks = function(tickLineGroup, data, dimension, xDistance) {
